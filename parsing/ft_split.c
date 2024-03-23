@@ -10,64 +10,71 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo/philo.h"
+//#include "../philo/philo.h"
 
-/// @brief skips spaces or numbers
-/// @param av the argument
-/// @param spaces flag, if 1 skips spaces, if 0 skips everything but spaces
-/// @param i the index it starts from
-int	skip(char *av, int spaces, int i)
+#include <stdlib.h>
+#include <stdio.h>
+
+char	*set_arg(char *str, int idx, int len)
 {
-	if (spaces)
-	{
-		while (av[i] == ' ' || (av[i] >= 9 && av[i] <= 13) && av[i] != '\0')
-			i++;
-	}
-	else
-	{
-		while (av[i] != ' ' && !(av[i] >= 9 && av[i] <= 13) && av[i] != '\0')
-			i++;
-	}
-	return (i);
+	int		i;
+	char	*arg;
+
+	i = 0;
+	arg = malloc((len + 1) * sizeof(char));
+	if (!arg)
+		return (NULL);
+	while (i < len && str[idx])
+		arg[i++] = str[idx++];
+	arg[i] = '\0';
+	return (arg);
 }
 
-int	arg_ctr(char *av)
+int	set_args(char **split_args, char *str, int num)
 {
 	int	i;
-	int	ctr;
+	int begin;
+	int	end;
+	int	j;
+	int	itr;
 
-	ctr = 0;
+	begin = 0;
+	end = 0;
 	i = 0;
-	while (av[i] != '\0')
+	itr = 0;
+	while (i < num)
 	{
-		i = skip(av, 1, i);
-		if (av[i] != '\0')
-			ctr++;
-		i = skip(av, 0, i);
+		j = 0;
+		begin = skip(str, 1, begin, 0);
+		end = skip(str, 0, begin, 0);
+		split_args[i] = set_arg(str, begin, end - begin);
+		if (!split_args[i])
+			return (0);
+		printf("the string is %s\n", split_args[i]);
+		i ++;
+		begin = end;
 	}
-	return (ctr);
+	split_args[num] = NULL;
 }
 
-int	ft_atoi(char *av)
+char	**split_nums(char *av)
 {
-	
-}
-
-int	*split_nums(char *av)
-{
-	int		*nums;
 	char	**split_args;
+	int		arg_num;
 
-	split_args = malloc((arg_ctr(av) + 1) * sizeof (char*));
+	arg_num = arg_ctr(av);
+	if (arg_num == -1)
+		return (NULL);
+		//error_handler("arguments are not all numbers\n");
+	else if (arg_num != 4 && arg_num != 5)
+		return (NULL);
+		//error_handler("wrong number of arguments\n");
+	split_args = malloc((arg_num + 1) * sizeof (char*));
 	if (!split_args)
 		return (NULL);
-	
-}
-
-int main (int ac, char **av)
-{
-	if (ac == 2)
-	{
-		printf("%d\n", arg_ctr(av[1]));
-	}
+		//error_handler("no space\n");
+	if (!set_args(split_args, av, arg_num))
+		return (NULL);
+		//error_handler("arguments couldn't be split\n");
+	return (split_args);
 }

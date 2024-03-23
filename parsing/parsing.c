@@ -10,8 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+//#include "philo.h"
 
+int	validate_num(char	str)
+{
+	if (!(str >= 48 && str <= 57))
+		return (0);
+	return (1);
+}
+
+int	ft_atol(char *str)
+{
+	
+}
 
 int	validate(int ac, char **av)
 {
