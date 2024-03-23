@@ -1,5 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/23 16:29:36 by ssibai            #+#    #+#             */
+/*   Updated: 2024/03/23 17:56:19 by ssibai           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <stdio.h>
+#include "../philo/philo.h"
+
+int	tot_vars(char **av)
+{
+	int	ctr;
+
+	ctr = 0;
+	while (av[ctr] != NULL)
+		ctr ++;
+	return (ctr);
+}
 
 /// @brief skips spaces or numbers
 /// @param av the argument
@@ -10,22 +31,20 @@ int	skip(char *av, int spaces, int i, int check_num)
 {
 	if (spaces)
 	{
-		while (av[i] == ' ' || (av[i] >= 9 && av[i] <= 13) && av[i] != '\0')
+		while ((av[i] == ' ') || ((av[i] >= 9 && av[i] <= 13) && (av[i] != '\0')))
 			i++;
 	}
 	else
 	{
-		while (av[i] != ' ' && !(av[i] >= 9 && av[i] <= 13) && av[i] != '\0')
+		while ((av[i] != ' ') && (!(av[i] >= 9 && av[i] <= 13)) && (av[i] != '\0'))
 		{
 			if (check_num)
 			{
 				if (!validate_num(av[i]))
-                {
-                    printf("%s\n",av);
-                    printf("i equal %d\n", i);
-                    printf("char is %c\n", av[i]);
+				{
+					printf("not valid\n");
 					return (-1);
-                }
+				}
 			}
 			i++;
 		}
@@ -33,7 +52,9 @@ int	skip(char *av, int spaces, int i, int check_num)
 	return (i);
 }
 
-//counts number of arguments in a string. (useful in general)
+/// @brief counts number of arguments in a string.
+/// @param av the string
+/// @return number of args
 int	arg_ctr(char *av)
 {
 	int	i;
@@ -50,6 +71,5 @@ int	arg_ctr(char *av)
 		if (i == -1)
 			return (-1);
 	}
-    printf("ctr is %d\n", ctr);
 	return (ctr);
 }

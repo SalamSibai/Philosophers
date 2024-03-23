@@ -6,14 +6,11 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 20:01:38 by ssibai            #+#    #+#             */
-/*   Updated: 2024/03/22 20:33:44 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/03/23 17:15:36 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "../philo/philo.h"
-
-#include <stdlib.h>
-#include <stdio.h>
+#include "../philo/philo.h"
 
 char	*set_arg(char *str, int idx, int len)
 {
@@ -50,11 +47,11 @@ int	set_args(char **split_args, char *str, int num)
 		split_args[i] = set_arg(str, begin, end - begin);
 		if (!split_args[i])
 			return (0);
-		printf("the string is %s\n", split_args[i]);
 		i ++;
 		begin = end;
 	}
 	split_args[num] = NULL;
+	return (1);
 }
 
 char	**split_nums(char *av)
@@ -64,17 +61,13 @@ char	**split_nums(char *av)
 
 	arg_num = arg_ctr(av);
 	if (arg_num == -1)
-		return (NULL);
-		//error_handler("arguments are not all numbers\n");
+		return (parse_error("arguments are not all numbers\n", 0), NULL);
 	else if (arg_num != 4 && arg_num != 5)
-		return (NULL);
-		//error_handler("wrong number of arguments\n");
+		return (parse_error("wrong number of arguments\n", 0), NULL);
 	split_args = malloc((arg_num + 1) * sizeof (char*));
 	if (!split_args)
-		return (NULL);
-		//error_handler("no space\n");
+		return (parse_error("no space\n", 0), NULL);
 	if (!set_args(split_args, av, arg_num))
-		return (NULL);
-		//error_handler("arguments couldn't be split\n");
+		return (parse_error("arguments couldn't be split\n", 0), NULL);
 	return (split_args);
 }

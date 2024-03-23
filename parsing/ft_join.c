@@ -1,8 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_join.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/23 16:29:08 by ssibai            #+#    #+#             */
+/*   Updated: 2024/03/23 17:49:10 by ssibai           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-//#include "../philo/philo.h"
-
-#include <stdlib.h>
-#include <stdio.h>
+#include "../philo/philo.h"
 
 void	ft_copy(char *args, char *list, int *args_idx, int *list_idx)
 {
@@ -55,27 +63,25 @@ int	ft_listlen(char **av, int ac)
 {
 	int	len;
 	int	i;
-    int j;
-    int end;
+	int j;
+	int end;
 
 	i = 0;
-    j = 0;
+	j = 0;
 	len = 0;
-    end = 0;
+	end = 0;
 	while (i < ac)
 	{
-        j = 0;
-        while (av[i][j] != '\0')
-        {
-            j = skip(av[i], 1, j, 0);
-            end = skip(av[i], 0, j, 1);
-            len += end - j;
-            if (len == -1)
-                return (-1);
-            len ++;
-            j = end;
-        }
-        i ++;
+		j = 0;
+		while (av[i][j] != '\0')
+		{
+			j = skip(av[i], 1, j, 0);
+			end = skip(av[i], 0, j, 0);
+			len += end - j;
+			len ++;
+			j = end;
+		}
+		i ++;
 	}
 	return (len);
 }
@@ -86,15 +92,6 @@ char	*ft_join(char **args, int arg_num)
 	int		list_len;
 
 	list_len = ft_listlen(args, arg_num);
-    joined = copy_to_list(args, arg_num, list_len);
-}
-
-int main (int ac, char **av)
-{
-	char *join;
-	if (ac >= 2)
-	{
-		join = ft_join(++av, ac-1);
-        printf("the joined list: %s\n", join);
-	}
+	joined = copy_to_list(args, arg_num, list_len);
+	return (joined);
 }
