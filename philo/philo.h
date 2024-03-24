@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 15:53:48 by ssibai            #+#    #+#             */
-/*   Updated: 2024/03/23 20:47:46 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/03/24 17:11:17 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef enum e_state
 	SLEEPING
 }	t_state;
 
-
 typedef struct s_data
 {
 	time_t	start_time;
@@ -49,11 +48,15 @@ typedef struct s_philo
 	t_state			state;
 	unsigned int	sn;
 	unsigned int	meal_ctr;
-	time_t			last_mealtime;	
-
-
+	time_t			last_mealtime;
 } t_philo;
 
+typedef struct s_fork
+{
+	int				in_use;
+	pthread_mutex_t	mutex;
+	
+} t_fork;
 
 
 void	error_handler(char *msg, int cleanup);
