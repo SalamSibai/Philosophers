@@ -54,7 +54,7 @@ char	**validate(int ac, char **av)
 		if (!num_str)
 		{
 			//make sure u free
-			return (0);
+			return (NULL);
 		}
 	}
 	else
