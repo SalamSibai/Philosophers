@@ -9,8 +9,10 @@ SRC_FILES	=$	$(PARSE_DIR)/ft_split.c \
 				$(PARSE_DIR)/parsing_utils.c \
 				$(PARSE_DIR)/parsing_error.c \
 				main.c \
+				philo.c \
 				error_handler.c \
 				init.c \
+				eat.c \
 
 OBJS			= $(SRC_FILES:.c=.o)
 
