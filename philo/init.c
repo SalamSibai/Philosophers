@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:39:54 by ssibai            #+#    #+#             */
-/*   Updated: 2024/03/26 22:15:57 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/03/27 16:12:09 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	fork_init(t_fork **forks, t_data *data)
 		if (pthread_mutex_init(&(forks[i]->mutex), NULL))
 			return (0); //also free stuff
 	}
+	forks[i] = NULL;
 	return (1);
 }
 
@@ -61,10 +62,10 @@ int	philo_init(t_philo **philo, t_data *data, t_fork **fork)
 	{
 		philo[i] = malloc(sizeof(t_philo));
 		if (!philo[i])
-		{
-			printf("PROBLEM PLS FREE\n");
-				return (0);
-		}
+			return (0); //pls free
+		philo[i]->thrd = malloc(sizeof(pthread_t));
+		if (!philo[i]->thrd)
+			return (0); //pls free
 		philo[i]->sn = i;
 		philo[i]->state = THINKING;
 		philo[i]->meal_ctr = 0;
@@ -75,5 +76,6 @@ int	philo_init(t_philo **philo, t_data *data, t_fork **fork)
 			philo[i]->l_fork = fork[i - 1];
 		philo[i]->r_fork = fork[i];
 	}
+	philo[i] = NULL;
 	return (1);
 }

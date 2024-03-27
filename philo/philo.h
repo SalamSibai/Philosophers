@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 15:53:48 by ssibai            #+#    #+#             */
-/*   Updated: 2024/03/26 22:16:00 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/03/27 16:12:05 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_data
 /// @param	last_mealtime	last time the philosopher had something to eat
 typedef struct s_philo
 {
-	pthread_t		*philo_thrd;
+	pthread_t		*thrd;
 	t_state			state;
 	unsigned int	sn;
 	unsigned int	meal_ctr;

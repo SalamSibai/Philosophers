@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:46:11 by ssibai            #+#    #+#             */
-/*   Updated: 2024/03/26 22:16:05 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/03/27 16:05:57 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	philo(t_data *data)
 		printf("NO SPACE FREE PLEASE\n");
 	
 	//if (!make_forks(forks, data))
-		
 	//make_philosophers(philos, fork, data);
 	return (1);
 	//create the threads here
