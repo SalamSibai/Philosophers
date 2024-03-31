@@ -6,43 +6,31 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:46:11 by ssibai            #+#    #+#             */
-/*   Updated: 2024/03/27 16:05:57 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/03/31 23:05:04 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-
-/// @brief creates the forks
-/// @param fork forks reference
-/// @param data data reference
-/// @return returns 1 if creation of all was successful
-int	make_forks(t_fork **fork, t_data *data)
-{
-	
-}
-
 /// @brief creates the philosophers
 /// @param philo philosophers reference
 /// @param data data reference
 /// @return returns 1 if creation for all was successful
-int	make_philosophers(t_philo **philo, t_fork **fork, t_data *data)
+int	make_philosophers(t_philo **philo, t_data *data)
 {
-	(void) fork;
 	int	i;
 
-	i = 0;
-	while (i < data->philo_num)
+	i = -1;
+	while (++i < data->philo_num)
 	{
-		philo[i] = malloc(sizeof(t_philo));
-		if (!philo[i])
-		{
-			printf("PROBLEM PLS FREE\n");
-				return (0);
-		}
-		philo[i]->sn = i;
-		
+		pthread_create(philo[i]->thread, NULL, (void *)&check_forks, philo[i]);
 	}
+	i = -1;
+	while (++i < data->philo_num)
+	{
+		pthread_join(*philo[i]->thread, NULL);
+	}
+	return (1);
 }
 
 int	philo(t_data *data)
@@ -60,9 +48,9 @@ int	philo(t_data *data)
 		printf("NO SPACE FREE PLEASE\n");
 	if (!philo_init(philos, data, forks))
 		printf("NO SPACE FREE PLEASE\n");
+	make_philosophers(philos, data);
 	
 	//if (!make_forks(forks, data))
-	//make_philosophers(philos, fork, data);
 	return (1);
 	//create the threads here
 	//create the mutexes here

@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:39:54 by ssibai            #+#    #+#             */
-/*   Updated: 2024/03/27 16:12:09 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/03/31 23:40:35 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 void	data_init(t_data *data, char **nums)
 {
+	struct timeval	tval;
+
+	data->all_alive = 1;
+	if (pthread_mutex_init(&(data->state_mutex), NULL))
+		printf("error\n");
 	data->philo_num = ft_atol(nums[0]);
 	if (data->philo_num == -1)
 		printf("error\n");
@@ -35,6 +40,8 @@ void	data_init(t_data *data, char **nums)
 	}
 	else
 		data->food_ctr = -1;
+	gettimeofday(&tval, NULL);
+	data->start_time = (tval.tv_sec * 1000) + (tval.tv_usec/1000); //everything is in milliseconds
 }
 
 int	fork_init(t_fork **forks, t_data *data)
@@ -44,8 +51,11 @@ int	fork_init(t_fork **forks, t_data *data)
 	i = -1;
 	while (++i < data->forks_num)
 	{
+		forks[i] = malloc(sizeof(t_fork));
+		if (!forks[i])
+			return (0); //also free;
 		forks[i]->sn = i;
-		forks[i]->in_use = i;
+		forks[i]->in_use = 0;
 		if (pthread_mutex_init(&(forks[i]->mutex), NULL))
 			return (0); //also free stuff
 	}
@@ -63,11 +73,11 @@ int	philo_init(t_philo **philo, t_data *data, t_fork **fork)
 		philo[i] = malloc(sizeof(t_philo));
 		if (!philo[i])
 			return (0); //pls free
-		philo[i]->thrd = malloc(sizeof(pthread_t));
-		if (!philo[i]->thrd)
+		philo[i]->thread = malloc(sizeof(pthread_t));
+		if (!philo[i]->thread)
 			return (0); //pls free
-		philo[i]->sn = i;
-		philo[i]->state = THINKING;
+		philo[i]->sn = i + 1;
+		philo[i]->state = ALIVE;
 		philo[i]->meal_ctr = 0;
 		philo[i]->last_mealtime = 0;
 		if (i == 0)
@@ -75,6 +85,7 @@ int	philo_init(t_philo **philo, t_data *data, t_fork **fork)
 		else
 			philo[i]->l_fork = fork[i - 1];
 		philo[i]->r_fork = fork[i];
+		philo[i]->data = data;
 	}
 	philo[i] = NULL;
 	return (1);

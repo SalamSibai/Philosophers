@@ -13,6 +13,8 @@ SRC_FILES	=$	$(PARSE_DIR)/ft_split.c \
 				error_handler.c \
 				init.c \
 				eat.c \
+				sleep.c \
+				death.c \
 
 OBJS			= $(SRC_FILES:.c=.o)
 
