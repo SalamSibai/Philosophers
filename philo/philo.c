@@ -6,11 +6,18 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:46:11 by ssibai            #+#    #+#             */
-/*   Updated: 2024/03/31 23:05:04 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/03 23:35:55 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	print_sfly(t_philo *philo, char *msg, long timestamp)
+{
+	pthread_mutex_lock(&philo->data->print_mutex);
+	printf("time: %ld | Philosopher %d %s\n", timestamp ,philo->sn, msg);
+	pthread_mutex_unlock(&philo->data->print_mutex);
+}
 
 /// @brief creates the philosophers
 /// @param philo philosophers reference
@@ -18,7 +25,7 @@
 /// @return returns 1 if creation for all was successful
 int	make_philosophers(t_philo **philo, t_data *data)
 {
-	int	i;
+	int		i;
 
 	i = -1;
 	while (++i < data->philo_num)
@@ -30,9 +37,27 @@ int	make_philosophers(t_philo **philo, t_data *data)
 	{
 		pthread_join(*philo[i]->thread, NULL);
 	}
+	i = -1;
+	while (++i < data->philo_num)
+	{
+		if (philo[i]->autopsy_report.death_time > 0)
+		{
+			print_sfly(philo[i], "is dead", philo[i]->autopsy_report.death_time);
+			break;
+		}
+	}
 	return (1);
 }
 
+// * ./philo 1 800 200 200: Should not eat and die
+// * ./philo 5 800 200 200 7: No one should die
+// * ./philo 4 410 200 200: No one should die
+// * ./philo 4 310 200 100: A philosopher should die
+// * ./philo 3 1000 500 600  A philosopher should die
+// * ./philo 5 200 100 60  A philosopher should die
+// * ./philo 4 500 400 300  A philosopher should die
+// * ./philo 3 700 200 200 Philosophers shouldnt die here
+// * ./philo 2 200 200 100  A philosopher should die
 int	philo(t_data *data)
 {
 	t_philo	**philos;

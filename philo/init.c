@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:39:54 by ssibai            #+#    #+#             */
-/*   Updated: 2024/03/31 23:40:35 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/03 23:31:25 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ void	data_init(t_data *data, char **nums)
 {
 	struct timeval	tval;
 
-	data->all_alive = 1;
+	data->all_alive = true;
 	if (pthread_mutex_init(&(data->state_mutex), NULL))
+		printf("error\n");
+	if (pthread_mutex_init(&(data->print_mutex), NULL))
 		printf("error\n");
 	data->philo_num = ft_atol(nums[0]);
 	if (data->philo_num == -1)
@@ -86,6 +88,7 @@ int	philo_init(t_philo **philo, t_data *data, t_fork **fork)
 			philo[i]->l_fork = fork[i - 1];
 		philo[i]->r_fork = fork[i];
 		philo[i]->data = data;
+		memset(&philo[i]->autopsy_report, 0, sizeof(t_autopsy_results));
 	}
 	philo[i] = NULL;
 	return (1);

@@ -19,7 +19,7 @@ SRC_FILES	=$	$(PARSE_DIR)/ft_split.c \
 OBJS			= $(SRC_FILES:.c=.o)
 
 CC				= gcc
-CFLAGS			= -Wall -Werror -Wextra -fsanitize=address -g3
+CFLAGS			= -Wall -Werror -Wextra  -pthread
 
 all: $(NAME)
 
