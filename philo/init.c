@@ -1,6 +1,12 @@
 
 #include "philo.h"
 
+/**
+ * @brief initializes the input struct
+ * 
+ * @param input input reference
+ * @param nums nums 2d array
+ */
 void	init_input(t_input *input, char  **nums)
 {
 	input->philo_num = ft_atol(nums[0]);
@@ -27,6 +33,12 @@ void	init_input(t_input *input, char  **nums)
 	//free nums
 }
 
+
+/**
+ * @brief initialize error codes struct
+ * 
+ * @param error error reference
+ */
 void	init_error_codes(t_error_code *error)
 {
 	error->shared_data_error = 0;
@@ -34,6 +46,15 @@ void	init_error_codes(t_error_code *error)
 	error->philos_error = 0;
 }
 
+/**
+ * @brief initializes shared data struct
+ * 
+ * @param shared shared_data reference
+ * @param input input reference
+ * @return int 	if 0, it passed
+ * 				if 1, failed but no destroys are necessary
+ * 				if 2, failed and destroy for state mutex is necessary
+ */
 int	init_shared_data(t_shared_data *shared, t_input	*input)
 {
 	struct timeval	time_val;
@@ -48,6 +69,17 @@ int	init_shared_data(t_shared_data *shared, t_input	*input)
 	return (0);
 }
 
+/**
+ * @brief initializes the forks struct
+ * 
+ * @param forks reference to forks pointer
+ * @param input reference to input
+ * @return int 	the index that we free to
+ * 				if -2, succeeds
+ * 				if -1, no frees are necessary
+ * 				if 0, no destroys are necessary
+ *					we always destroy i - 1 mutexes
+ */
 int	init_forks(t_fork **forks, t_input *input)
 {
 	int	i;
@@ -57,24 +89,34 @@ int	init_forks(t_fork **forks, t_input *input)
 	{
 		forks[i] = malloc(sizeof(t_fork));
 		if (!forks[i])
-			return (i - 1); // the index we must free until
-							// if -1, the first fork failed, we free nothing
+			return (i - 1);
 		forks[i]->sn = i + 1;
 		forks[i]->in_use = false;
 		forks[i]->last_user = 0;
 		if (pthread_mutex_init(&(forks[i]->mutex), NULL))
 		{
 			printf("error\n");
-			return (i); // the index we must free until
-						// if i that is returned is 0:
-						// means we only free the first index of fork, without destroying the mutex
-						// for mutexes: we always destroy i - 1 mutexes
+			return (i);
 		}
 	}
 	forks[i] = NULL;
 	return (-2);
 }
 
+/**
+ * @brief initializes the philosophers struct
+ * 
+ * @param philo reference to philo pointer
+ * @param fork reference to forks pointer
+ * @param input reference to input
+ * @param shared reference to shared data
+ * @return int 	the index that we free till
+ * 				if -2, succeeds
+ * 				if -1, fails, and no frees are needed
+ * 				if 0, fails means we only free the first index 
+ * 						of fork, without freeing the thread
+ *						for threads: we always free i - 1 thread
+ */
 int	init_philos(t_philo  **philo, t_fork **fork, t_input *input, t_shared_data *shared)
 {
 	int	i;
@@ -84,14 +126,10 @@ int	init_philos(t_philo  **philo, t_fork **fork, t_input *input, t_shared_data *
 	{
 		philo[i] = malloc(sizeof(t_philo));
 		if (!philo[i])
-			return (i - 1); // the index we must free until
-							// if -1, the first philo failed, we free nothing
+			return (i - 1);
 		philo[i]->thread = malloc(sizeof(pthread_t));
 		if (!philo[i]->thread)
-			return (i); // the index we must free until
-						// if i that is returned is 0:
-						// means we only free the first index of fork, without freeing the thread
-						// for threads: we always free i - 1 thread
+			return (i);
 		philo[i]->sn = i + 1;
 		philo[i]->state = ALIVE;
 		if (i == 0)

@@ -2,9 +2,12 @@
 
 #include "philo.h"
 
-
-
-
+/**
+ * @brief changes the order of locking the fork mutex
+ * 
+ * @param philo philo reference
+ * @param left if true, lock left first
+ */
 void    grab_forks(t_philo  *philo, bool left)
 {
 	if (left)
@@ -19,20 +22,24 @@ void    grab_forks(t_philo  *philo, bool left)
 	}
 }
 
-
-
-
-
+/**
+ * @brief lets go of forks
+ * 
+ * @param philo philo reference
+ */
 void    leave_forks(t_philo *philo)
 {
 	pthread_mutex_unlock(&philo->l_fork->mutex);
 	pthread_mutex_unlock(&philo->r_fork->mutex);
 }
 
-
-
-
-
+/**
+ * @brief confirms if both forks can be taken
+ * 
+ * @param philo philo reference
+ * @return true if both forks can be taken 
+ * @return false if one or neither forks cant be taken
+ */
 bool    take_forks(t_philo *philo)
 {
 	bool    l_available;
@@ -61,11 +68,14 @@ bool    take_forks(t_philo *philo)
 	return (false);
 }
 
-
-
-
-
-
+/**
+ * @brief the eating state of a philosopher
+ * 
+ * @param philo philo reference
+ * @return true if a philosopher finished eating
+ * @return false if a philosopher died while eating,
+ * 			or someone else died
+ */
 bool	philo_eat(t_philo	*philo)
 {
 	struct timeval	tval;
@@ -98,10 +108,12 @@ bool	philo_eat(t_philo	*philo)
 	return (true);
 }
 
-
-
-
-
+/**
+ * @brief main thread loop. looks for forks
+ * 
+ * @param philo philo reference
+ * @return void* if NULL, someone died
+ */
 void    *find_forks(t_philo *philo)
 {    
 	pthread_mutex_lock(&philo->shared_data->state_mutex);
@@ -126,5 +138,5 @@ void    *find_forks(t_philo *philo)
 		pthread_mutex_lock(&philo->shared_data->state_mutex);
 	}
 	pthread_mutex_unlock(&philo->shared_data->state_mutex);
-	return (NULL); //-1 means someone died already
+	return (NULL);
 }

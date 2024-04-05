@@ -64,7 +64,5 @@ int philo(t_input *input)
 	}
 	make_philosophers(philos, input);
 
-
-
 	return (0);
 }

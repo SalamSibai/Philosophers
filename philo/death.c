@@ -2,9 +2,13 @@
 
 #include "philo.h"
 
-/// @brief check if it has been longer than death_time since the last mealtime
-/// @param philo 
-/// @return true if the philosopher should die
+/**
+ * @brief check if it has been longer than death_time 
+ * 		since the last mealtime
+ * @param philo philo reference
+ * @return true if a philo should die
+ * @return false if a philo should live
+ */
 bool    should_die(t_philo *philo)
 {
 	struct timeval	tval;
