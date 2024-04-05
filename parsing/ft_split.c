@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../philo_old/old_philo.h"
 #include "../philo/philo.h"
 
 char	*set_arg(char *str, int idx, int len)
@@ -32,20 +33,16 @@ int	set_args(char **split_args, char *str, int num)
 	int	i;
 	int begin;
 	int	end;
-	int	j;
-	int	itr;
 
 	begin = 0;
 	end = 0;
 	i = 0;
-	itr = 0;
 	while (i < num)
 	{
-		j = 0;
 		begin = skip(str, 1, begin, 0);
 		end = skip(str, 0, begin, 0);
 		split_args[i] = set_arg(str, begin, end - begin);
-		if (!split_args[i])
+		if (!split_args[i]) //return the index that failed amd free up to that point
 			return (0);
 		i ++;
 		begin = end;
@@ -68,6 +65,9 @@ char	**split_nums(char *av)
 	if (!split_args)
 		return (parse_error("no space\n", 0), NULL);
 	if (!set_args(split_args, av, arg_num))
+	{
+		//free_split
 		return (parse_error("arguments couldn't be split\n", 0), NULL);
+	}
 	return (split_args);
 }

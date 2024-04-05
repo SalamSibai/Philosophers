@@ -40,6 +40,8 @@ int	ft_atol(char *str)
 		num = num * 10 + (str[i++] - '0');
 	if (num > 2147483647)
 		return (-1);
+	if (num == 0)
+		return (-1);
 	return (num);
 }
 
@@ -69,6 +71,7 @@ char	**validate(int ac, char **av)
 			//make sure u free
 			return (NULL);
 		}
+		free (joined);
 	}
 	return (num_str);
 }

@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../philo_old/old_philo.h"
 #include "../philo/philo.h"
+
 
 void	ft_copy(char *args, char *list, int *args_idx, int *list_idx)
 {

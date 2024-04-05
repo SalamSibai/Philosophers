@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "old_philo.h"
 
 bool	dream(t_philo *philo, time_t total_sleep_time)
 {

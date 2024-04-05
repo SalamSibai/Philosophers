@@ -1,95 +1,101 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/23 20:39:54 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/03 23:31:25 by ssibai           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "philo.h"
 
-void	data_init(t_data *data, char **nums)
+void	init_input(t_input *input, char  **nums)
 {
-	struct timeval	tval;
-
-	data->all_alive = true;
-	if (pthread_mutex_init(&(data->state_mutex), NULL))
+	input->philo_num = ft_atol(nums[0]);
+	if (input->philo_num == -1)
+		printf("error\n"); //and return
+	input->forks_num = input->philo_num;
+	input->death_timer = ft_atol(nums[1]);
+	if (input->death_timer == -1)
 		printf("error\n");
-	if (pthread_mutex_init(&(data->print_mutex), NULL))
+	input->food_timer = ft_atol(nums[2]);
+	if (input->food_timer == -1)
 		printf("error\n");
-	data->philo_num = ft_atol(nums[0]);
-	if (data->philo_num == -1)
-		printf("error\n");
-	data->forks_num = data->philo_num;
-	data->death_timer = ft_atol(nums[1]);
-	if (data->death_timer == -1)
-		printf("error\n");
-	data->food_timer = ft_atol(nums[2]);
-	if (data->food_timer == -1)
-		printf("error\n");
-	data->sleep_timer = ft_atol(nums[3]);
-	if (data->sleep_timer == -1)
+	input->sleep_timer = ft_atol(nums[3]);
+	if (input->sleep_timer == -1)
 		printf("error\n");
 	if (tot_vars(nums) == 5)
 	{
-		data->food_ctr = ft_atol(nums[4]);
-		if (data->food_ctr == -1)
+		input->food_ctr = ft_atol(nums[4]);
+		if (input->food_ctr == -1)
 			printf("error\n");
 	}
 	else
-		data->food_ctr = -1;
-	gettimeofday(&tval, NULL);
-	data->start_time = (tval.tv_sec * 1000) + (tval.tv_usec/1000); //everything is in milliseconds
+	input->food_ctr = -1;
 }
 
-int	fork_init(t_fork **forks, t_data *data)
+int     init_shared_data(t_shared_data *shared_data)
+{
+	struct timeval	time_val;
+
+	gettimeofday(&time_val, NULL);
+	shared_data->start_time = (time_val.tv_sec * 1000) + (time_val.tv_usec/1000);
+	shared_data->all_alive = true;
+	if (pthread_mutex_init(&(shared_data->state_mutex), NULL))
+		printf("error\n"); //return 1 to not clean up anything
+	if (pthread_mutex_init(&(shared_data->print_mutex), NULL))
+		printf("error\n"); //return 2 to only destroy state_mutex
+	return (0);
+}
+
+int     init_fork(t_fork **forks, t_input *input)
 {
 	int	i;
 
 	i = -1;
-	while (++i < data->forks_num)
+	while (++i < input->forks_num)
 	{
 		forks[i] = malloc(sizeof(t_fork));
 		if (!forks[i])
-			return (0); //also free;
-		forks[i]->sn = i;
-		forks[i]->in_use = 0;
-		if (pthread_mutex_init(&(forks[i]->mutex), NULL))
-			return (0); //also free stuff
+			return (i - 1); // the index we must free until
+							// if -1, the first fork failed, we free nothing
+		forks[i]->sn = i + 1;
+		forks[i]->in_use = false;
+		forks[i]->last_user = 0;
+		if (pthread_mutex_inti(&(forks[i]->mutex), NULL))
+		{
+			printf("error\n");
+			return (i); // the index we must free until
+						// if i that is returned is 0:
+						// means we only free the first index of fork, without destroying the mutex
+						// for mutexes: we always destroy i - 1 mutexes
+		}
 	}
 	forks[i] = NULL;
-	return (1);
+	return (0);
 }
 
-int	philo_init(t_philo **philo, t_data *data, t_fork **fork)
+int     init_philos(t_philo  **philo, t_fork **fork, t_input *input, t_shared_data *shared)
 {
 	int	i;
 
 	i = -1;
-	while (++i < data->philo_num)
+	while (++i < input->philo_num)
 	{
 		philo[i] = malloc(sizeof(t_philo));
 		if (!philo[i])
-			return (0); //pls free
+			return (i - 1); // the index we must free until
+							// if -1, the first philo failed, we free nothing
 		philo[i]->thread = malloc(sizeof(pthread_t));
 		if (!philo[i]->thread)
-			return (0); //pls free
+			return (i); // the index we must free until
+						// if i that is returned is 0:
+						// means we only free the first index of fork, without freeing the thread
+						// for threads: we always free i - 1 thread
 		philo[i]->sn = i + 1;
 		philo[i]->state = ALIVE;
-		philo[i]->meal_ctr = 0;
-		philo[i]->last_mealtime = 0;
 		if (i == 0)
-			philo[i]->l_fork = fork[data->forks_num - 1];
+			philo[i]->l_fork = fork[input->forks_num - 1];
 		else
 			philo[i]->l_fork = fork[i - 1];
 		philo[i]->r_fork = fork[i];
-		philo[i]->data = data;
-		memset(&philo[i]->autopsy_report, 0, sizeof(t_autopsy_results));
+		philo[i]->meal_ctr = 0;
+		philo[i]->death_time = -1;
+		philo[i]->shared_data = shared;
 	}
 	philo[i] = NULL;
-	return (1);
+	return (0);
 }
+

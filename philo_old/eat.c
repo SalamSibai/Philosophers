@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "old_philo.h"
 
 bool	philo_eat(t_philo *philo)
 {

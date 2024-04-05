@@ -1,0 +1,37 @@
+NAME			= philo
+
+SRC_DIR			= .
+PARSE_DIR		= ../parsing
+
+SRC_FILES	=$	$(PARSE_DIR)/ft_split.c \
+				$(PARSE_DIR)/parsing.c \
+				$(PARSE_DIR)/ft_join.c \
+				$(PARSE_DIR)/parsing_utils.c \
+				$(PARSE_DIR)/parsing_error.c \
+				main.c \
+				philo.c \
+				error_handler.c \
+				init.c \
+				eat.c \
+				sleep.c \
+				death.c \
+
+OBJS			= $(SRC_FILES:.c=.o)
+
+CC				= gcc
+CFLAGS			= -Wall -Werror -Wextra  -pthread
+
+all: $(NAME)
+
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+
+clean:
+	rm -f $(OBJS)
+
+fclean: clean
+	rm -f $(NAME)
+
+re: fclean all
+
+.PHONY: all clean fclean re

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "old_philo.h"
 
 void	print_sfly(t_philo *philo, char *msg, long timestamp)
 {

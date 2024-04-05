@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "old_philo.h"
 
 /// @brief might die dunno
 /// @param philo 

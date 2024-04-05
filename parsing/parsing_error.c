@@ -14,6 +14,6 @@
 
 void	parse_error(char *msg, int cleanup)
 {
-	(void) cleanup;
-	printf("%s", msg);
+	(void)	cleanup;
+	perror(msg);
 }

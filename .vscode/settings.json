@@ -4,6 +4,8 @@
 		"pthread.h": "c",
 		"time.h": "c",
 		"chrono": "c",
-		"ctime": "c"
+		"ctime": "c",
+		"old_philo.h": "c",
+		"parsing.h": "c"
 	}
 }
