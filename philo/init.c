@@ -64,7 +64,7 @@ int     init_fork(t_fork **forks, t_input *input)
 		}
 	}
 	forks[i] = NULL;
-	return (0);
+	return (-2);
 }
 
 int     init_philos(t_philo  **philo, t_fork **fork, t_input *input, t_shared_data *shared)
@@ -96,6 +96,6 @@ int     init_philos(t_philo  **philo, t_fork **fork, t_input *input, t_shared_da
 		philo[i]->shared_data = shared;
 	}
 	philo[i] = NULL;
-	return (0);
+	return (-2);
 }
 
