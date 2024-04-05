@@ -15,6 +15,7 @@ SRC_FILES	=$	$(PARSE_DIR)/ft_split.c \
 				eat.c \
 				sleep.c \
 				death.c \
+				print_state.c \
 
 OBJS			= $(SRC_FILES:.c=.o)
 

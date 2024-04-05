@@ -6,6 +6,13 @@
 		"chrono": "c",
 		"ctime": "c",
 		"old_philo.h": "c",
-		"parsing.h": "c"
+		"parsing.h": "c",
+		"array": "c",
+		"*.tcc": "c",
+		"memory": "c",
+		"istream": "c",
+		"functional": "c",
+		"tuple": "c",
+		"utility": "c"
 	}
 }

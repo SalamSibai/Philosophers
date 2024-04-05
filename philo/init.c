@@ -23,24 +23,32 @@ void	init_input(t_input *input, char  **nums)
 			printf("error\n");
 	}
 	else
-	input->food_ctr = -1;
+		input->food_ctr = -1;
+	//free nums
 }
 
-int     init_shared_data(t_shared_data *shared_data)
+void	init_error_codes(t_error_code *error)
+{
+	error->shared_data_error = 0;
+	error->forks_error = 0;
+	error->philos_error = 0;
+}
+
+int	init_shared_data(t_shared_data *shared, t_input	*input)
 {
 	struct timeval	time_val;
-
 	gettimeofday(&time_val, NULL);
-	shared_data->start_time = (time_val.tv_sec * 1000) + (time_val.tv_usec/1000);
-	shared_data->all_alive = true;
-	if (pthread_mutex_init(&(shared_data->state_mutex), NULL))
+	shared->start_time = (time_val.tv_sec * 1000) + (time_val.tv_usec/1000);
+	shared->all_alive = true;
+	if (pthread_mutex_init(&(shared->state_mutex), NULL))
 		printf("error\n"); //return 1 to not clean up anything
-	if (pthread_mutex_init(&(shared_data->print_mutex), NULL))
+	if (pthread_mutex_init(&(shared->print_mutex), NULL))
 		printf("error\n"); //return 2 to only destroy state_mutex
+	shared->input = input;
 	return (0);
 }
 
-int     init_fork(t_fork **forks, t_input *input)
+int	init_forks(t_fork **forks, t_input *input)
 {
 	int	i;
 
@@ -54,7 +62,7 @@ int     init_fork(t_fork **forks, t_input *input)
 		forks[i]->sn = i + 1;
 		forks[i]->in_use = false;
 		forks[i]->last_user = 0;
-		if (pthread_mutex_inti(&(forks[i]->mutex), NULL))
+		if (pthread_mutex_init(&(forks[i]->mutex), NULL))
 		{
 			printf("error\n");
 			return (i); // the index we must free until
@@ -67,7 +75,7 @@ int     init_fork(t_fork **forks, t_input *input)
 	return (-2);
 }
 
-int     init_philos(t_philo  **philo, t_fork **fork, t_input *input, t_shared_data *shared)
+int	init_philos(t_philo  **philo, t_fork **fork, t_input *input, t_shared_data *shared)
 {
 	int	i;
 
@@ -94,6 +102,7 @@ int     init_philos(t_philo  **philo, t_fork **fork, t_input *input, t_shared_da
 		philo[i]->meal_ctr = 0;
 		philo[i]->death_time = -1;
 		philo[i]->shared_data = shared;
+		philo[i]->last_mealtime = 0;
 	}
 	philo[i] = NULL;
 	return (-2);
