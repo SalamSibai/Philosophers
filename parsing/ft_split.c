@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo_old/old_philo.h"
+//#include "../philo_old/old_philo.h"
 #include "../philo/philo.h"
 
 char	*set_arg(char *str, int idx, int len)
