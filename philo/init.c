@@ -47,8 +47,15 @@ bool	init_shared_data(t_shared_data *shared, t_input	*input)
 	gettimeofday(&time_val, NULL);
 	shared->simulation_start_time = (time_val.tv_sec * 1000) + (time_val.tv_usec/1000);
 	shared->all_alive = true;
-	shared->state_mutex = NULL;
-	shared->print_mutex = NULL;
+	shared->state_mutex = malloc(sizeof(pthread_mutex_t));
+	if (!shared->state_mutex)
+		return (false);
+	shared->print_mutex = malloc(sizeof(pthread_mutex_t));
+	if (!shared->state_mutex)
+	{
+		free (shared->state_mutex);
+		return (false);
+	}
 	if (pthread_mutex_init((shared->state_mutex), NULL))
 	{
 		printf("error\n"); //return 1 to not clean up anything
