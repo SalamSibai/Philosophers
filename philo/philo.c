@@ -44,7 +44,7 @@ int philo(t_input *input)
 	forks = malloc(sizeof(t_fork *) * (input->forks_num + 1));
 	if (!forks)
 		return (0); //print error msg firs (NO SPACE for forks)
-	if (init_forks(forks, input))
+	if (!init_forks(forks, input))
 		return (0); //print error msg firs (NO SPACE for forks)
 	philos = malloc(sizeof(t_philo *) * (input->philo_num + 1));
 	if (!philos)

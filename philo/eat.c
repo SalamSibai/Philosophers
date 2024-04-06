@@ -103,7 +103,8 @@ bool	philo_eat(t_philo	*philo)
 		philo->l_fork->in_use = 0;
 		philo->r_fork->in_use = 0;
 		leave_forks(philo);
-		//sleep 
+		if (!philo_sleep(philo))
+			return (false);
 	}
 	else
 	{

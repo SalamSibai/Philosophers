@@ -93,6 +93,7 @@ void	print_eating(t_philo *philo);
 void	print_sleeping(t_philo *philo, time_t	sleep_time);
 void	print_thinking(t_philo *philo, time_t	think_time);
 void	print_dead(t_philo	*philo);
+bool	philo_sleep(t_philo *philo);
 
 /* ************************************************************************** */
 /*							    	ERROR HANDLING 	                          */
