@@ -77,25 +77,23 @@ bool	init_forks(t_fork **forks, t_input *input)
 	int	i;
 
 	i = -1;
-	if (set_forks(forks, input->forks_num))
+	while (++i < input->forks_num)
 	{
-		while (++i < input->forks_num)
+		forks[i] = malloc(sizeof(t_fork));
+		if (!forks[i])
+			return (false);
+		set_fork(forks[i]);
+		forks[i]->sn = i + 1;
+		forks[i]->in_use = false;
+		forks[i]->last_user = 0;
+		if (pthread_mutex_init((forks[i]->mutex), NULL))
 		{
-			forks[i] = malloc(sizeof(t_fork));
-			if (!forks[i])
-				return (0);
-			forks[i]->sn = i + 1;
-			forks[i]->in_use = false;
-			forks[i]->last_user = 0;
-			if (pthread_mutex_init((forks[i]->mutex), NULL))
-			{
-				printf("error\n");
-				return (0);
-			}
+			printf("error\n");
+			return (0);
 		}
 		forks[i] = NULL;
 	}
-	return (1);
+	return (true);
 }
 
 /**
@@ -114,15 +112,12 @@ bool	init_philos(t_philo  **philo, t_fork **fork, t_input *input, t_shared_data 
 	int	i;
 
 	i = -1;
-	set_philos(philo, input->philo_num);
 	while (++i < input->philo_num)
 	{
 		philo[i] = malloc(sizeof(t_philo));
 		if (!philo[i])
-			return (0);
-		philo[i]->thread = malloc(sizeof(pthread_t));
-		if (!philo[i]->thread)
 			return (false);
+		set_philo(philo[i]);
 		philo[i]->sn = i + 1;
 		philo[i]->state = ALIVE;
 		if (i == 0)

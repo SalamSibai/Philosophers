@@ -1,27 +1,14 @@
 
 #include "philo.h"
 
-bool    set_forks(t_fork **forks, int size)
+void    set_fork(t_fork *fork)
 {
-	int	i;
-
-	i = -1;
-	while (++i < size)
-	{
-		forks[i] = NULL;
-		forks[i]->mutex = NULL;
-	}
-	return (true);
+		fork = NULL;
+		//fork->mutex = NULL;
 }
 
-void    set_philos(t_philo **philos, int size)
+void    set_philo(t_philo *philo)
 {
-	int i;
-
-	i = -1;
-	while (++i < size)
-	{
-		philos[i] = NULL;
-		philos[i]->thread = NULL;
-	}
+		philo = NULL;
+		philo->thread = NULL;
 }

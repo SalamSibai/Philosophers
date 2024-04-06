@@ -78,8 +78,8 @@ void	init_input(t_input *input, char  **nums);
 bool    init_shared_data(t_shared_data *shared_data, t_input *input);
 bool    init_forks(t_fork **forks, t_input *input);
 bool	init_philos(t_philo  **philo, t_fork **fork, t_input *input, t_shared_data *shared);
-bool	set_forks(t_fork **forks, int size);
-void	set_philos(t_philo **philos, int size);
+void	set_fork(t_fork *fork);
+void	set_philo(t_philo *philo);
 
 /* ************************************************************************** */
 /*							    	PHILOSOPHERS 	                          */
