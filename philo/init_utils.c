@@ -1,7 +1,7 @@
 
 #include "philo.h"
 
-void    set_forks(t_fork **forks, int size)
+bool    set_forks(t_fork **forks, int size)
 {
 	int	i;
 
@@ -11,6 +11,7 @@ void    set_forks(t_fork **forks, int size)
 		forks[i] = NULL;
 		forks[i]->mutex = NULL;
 	}
+	return (true);
 }
 
 void    set_philos(t_philo **philos, int size)

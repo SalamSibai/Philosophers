@@ -10,8 +10,9 @@ SRC_FILES	=$	$(PARSE_DIR)/ft_split.c \
 				$(PARSE_DIR)/parsing_error.c \
 				main.c \
 				philo.c \
-				error_handler.c \
 				init.c \
+				init_utils.c \
+				doing.c \
 				eat.c \
 				sleep.c \
 				death.c \
@@ -20,7 +21,7 @@ SRC_FILES	=$	$(PARSE_DIR)/ft_split.c \
 OBJS			= $(SRC_FILES:.c=.o)
 
 CC				= gcc
-CFLAGS			= -Wall -Werror -Wextra  -pthread
+CFLAGS			= -Wall -Werror -Wextra  -pthread -fsanitize=address -g3
 
 all: $(NAME)
 

@@ -33,42 +33,34 @@ void	init_input(t_input *input, char  **nums)
 	//free nums
 }
 
-
-/**
- * @brief initialize error codes struct
- * 
- * @param error error reference
- */
-void	init_error_codes(t_error_code *error)
-{
-	error->shared_data_error = 0;
-	error->forks_error = 0;
-	error->philos_error = 0;
-}
-
 /**
  * @brief initializes shared data struct
  * 
  * @param shared shared_data reference
  * @param input input reference
- * @return int 	if 0, it passed
- * 				if 1, failed but no destroys are necessary
- * 				if 2, failed and destroy for state mutex is necessary
+ * @return int 	if 1, success
+ * 				if 0, failed
  */
-int	init_shared_data(t_shared_data *shared, t_input	*input)
+bool	init_shared_data(t_shared_data *shared, t_input	*input)
 {
 	struct timeval	time_val;
 	gettimeofday(&time_val, NULL);
-	shared->start_time = (time_val.tv_sec * 1000) + (time_val.tv_usec/1000);
+	shared->simulation_start_time = (time_val.tv_sec * 1000) + (time_val.tv_usec/1000);
 	shared->all_alive = true;
 	shared->state_mutex = NULL;
 	shared->print_mutex = NULL;
 	if (pthread_mutex_init((shared->state_mutex), NULL))
+	{
 		printf("error\n"); //return 1 to not clean up anything
+		return (0);
+	}
 	if (pthread_mutex_init((shared->print_mutex), NULL))
+	{
 		printf("error\n"); //return 2 to only destroy state_mutex
+		return (0);
+	}
 	shared->input = input;
-	return (0);
+	return (1);
 }
 
 /**
@@ -77,33 +69,33 @@ int	init_shared_data(t_shared_data *shared, t_input	*input)
  * @param forks reference to forks pointer
  * @param input reference to input
  * @return int 	the index that we free to
- * 				if -2, succeeds
- * 				if -1, no frees are necessary
- * 				if 0, no destroys are necessary
- *					we always destroy i - 1 mutexes
+ * 				if 1, succeeds
+ * 				if 0, fails
  */
-int	init_forks(t_fork **forks, t_input *input)
+bool	init_forks(t_fork **forks, t_input *input)
 {
 	int	i;
 
 	i = -1;
-	set_forks(forks, input->forks_num);
-	while (++i < input->forks_num)
+	if (set_forks(forks, input->forks_num))
 	{
-		forks[i] = malloc(sizeof(t_fork));
-		if (!forks[i])
-			return (i - 1);
-		forks[i]->sn = i + 1;
-		forks[i]->in_use = false;
-		forks[i]->last_user = 0;
-		if (pthread_mutex_init((forks[i]->mutex), NULL))
+		while (++i < input->forks_num)
 		{
-			printf("error\n");
-			return (i);
+			forks[i] = malloc(sizeof(t_fork));
+			if (!forks[i])
+				return (0);
+			forks[i]->sn = i + 1;
+			forks[i]->in_use = false;
+			forks[i]->last_user = 0;
+			if (pthread_mutex_init((forks[i]->mutex), NULL))
+			{
+				printf("error\n");
+				return (0);
+			}
 		}
+		forks[i] = NULL;
 	}
-	forks[i] = NULL;
-	return (-2);
+	return (1);
 }
 
 /**
@@ -114,13 +106,10 @@ int	init_forks(t_fork **forks, t_input *input)
  * @param input reference to input
  * @param shared reference to shared data
  * @return int 	the index that we free till
- * 				if -2, succeeds
- * 				if -1, fails, and no frees are needed
- * 				if 0, fails means we only free the first index 
- * 						of fork, without freeing the thread
- *						for threads: we always free i - 1 thread
+ * 				if 1, succeeds
+ * 				if 0, fails
  */
-int	init_philos(t_philo  **philo, t_fork **fork, t_input *input, t_shared_data *shared)
+bool	init_philos(t_philo  **philo, t_fork **fork, t_input *input, t_shared_data *shared)
 {
 	int	i;
 
@@ -130,10 +119,10 @@ int	init_philos(t_philo  **philo, t_fork **fork, t_input *input, t_shared_data *
 	{
 		philo[i] = malloc(sizeof(t_philo));
 		if (!philo[i])
-			return (i - 1);
+			return (0);
 		philo[i]->thread = malloc(sizeof(pthread_t));
 		if (!philo[i]->thread)
-			return (i);
+			return (false);
 		philo[i]->sn = i + 1;
 		philo[i]->state = ALIVE;
 		if (i == 0)
@@ -147,6 +136,5 @@ int	init_philos(t_philo  **philo, t_fork **fork, t_input *input, t_shared_data *
 		philo[i]->last_mealtime = 0;
 	}
 	philo[i] = NULL;
-	return (-2);
+	return (1);
 }
-
