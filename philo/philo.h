@@ -98,9 +98,9 @@ void	print_dead(t_philo	*philo);
 /*							    	ERROR HANDLING 	                          */
 /* ************************************************************************** */
 
-bool	clean_philos(t_philo **philos);
+void	clean_philos(t_philo **philos, int index, bool end);
 bool	clean_shared_data(t_shared_data *shared);
-bool	clean_forks(t_philo	**forks);
+void	clean_forks(t_fork	**forks, int index, bool end);
 bool	clean_input(t_input	*input);
 void	error_handler(char *error_msg);
 
