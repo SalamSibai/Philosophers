@@ -47,9 +47,9 @@ typedef	struct s_input
 typedef struct s_shared_data
 {
 	time_t			start_time;
-	pthread_mutex_t	state_mutex;
+	pthread_mutex_t	*state_mutex;
 	bool			all_alive;
-	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	*print_mutex;
 	t_input			*input;
 }	t_shared_data;
 
@@ -57,7 +57,7 @@ typedef struct s_shared_data
 typedef	struct s_fork
 {
 	int				sn;
-	pthread_mutex_t	mutex;
+	pthread_mutex_t	*mutex;
 	bool			in_use;
 	int				last_user;
 }	t_fork;
@@ -83,6 +83,8 @@ void	init_input(t_input *input, char  **nums);
 void	init_error_codes(t_error_code *error);
 int     init_shared_data(t_shared_data *shared_data, t_input *input);
 int     init_forks(t_fork **forks, t_input *input);
+void	set_forks(t_fork **forks, int size);
+void	set_philos(t_philo **philos, int size);
 
 /* ************************************************************************** */
 /*							    	PHILOSOPHERS 	                          */

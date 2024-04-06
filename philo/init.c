@@ -61,9 +61,11 @@ int	init_shared_data(t_shared_data *shared, t_input	*input)
 	gettimeofday(&time_val, NULL);
 	shared->start_time = (time_val.tv_sec * 1000) + (time_val.tv_usec/1000);
 	shared->all_alive = true;
-	if (pthread_mutex_init(&(shared->state_mutex), NULL))
+	shared->state_mutex = NULL;
+	shared->print_mutex = NULL;
+	if (pthread_mutex_init((shared->state_mutex), NULL))
 		printf("error\n"); //return 1 to not clean up anything
-	if (pthread_mutex_init(&(shared->print_mutex), NULL))
+	if (pthread_mutex_init((shared->print_mutex), NULL))
 		printf("error\n"); //return 2 to only destroy state_mutex
 	shared->input = input;
 	return (0);
@@ -85,6 +87,7 @@ int	init_forks(t_fork **forks, t_input *input)
 	int	i;
 
 	i = -1;
+	set_forks(forks, input->forks_num);
 	while (++i < input->forks_num)
 	{
 		forks[i] = malloc(sizeof(t_fork));
@@ -93,7 +96,7 @@ int	init_forks(t_fork **forks, t_input *input)
 		forks[i]->sn = i + 1;
 		forks[i]->in_use = false;
 		forks[i]->last_user = 0;
-		if (pthread_mutex_init(&(forks[i]->mutex), NULL))
+		if (pthread_mutex_init((forks[i]->mutex), NULL))
 		{
 			printf("error\n");
 			return (i);
@@ -122,6 +125,7 @@ int	init_philos(t_philo  **philo, t_fork **fork, t_input *input, t_shared_data *
 	int	i;
 
 	i = -1;
+	set_philos(philo, input->philo_num);
 	while (++i < input->philo_num)
 	{
 		philo[i] = malloc(sizeof(t_philo));
