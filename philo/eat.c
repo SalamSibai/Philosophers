@@ -91,8 +91,10 @@ bool	philo_eat(t_philo	*philo)
 		time_data.print =
 			time_data.last_meal - philo->shared_data->simulation_start_time;
 		philo->last_mealtime = time_data.print;
+		philo->r_fork->last_user = philo->sn;
+		philo->l_fork->last_user = philo->sn;
 		print_eating(philo);
-		if (philo->shared_data->input->food_ctr > 0)
+		if (philo->count_meals == true)
 			philo->meal_ctr ++;
 		if(!doing(philo, (philo->shared_data->input->food_timer)))
 			return (false);

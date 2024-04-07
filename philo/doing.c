@@ -8,7 +8,7 @@ bool	doing(t_philo *philo, time_t time_it_takes)
 	t_time_data     time_data;
 
 	gettimeofday(&tval, NULL);
-	time_data.start_doing = (tval.tv_sec * 1000) * (tval.tv_usec / 1000);
+	time_data.start_doing = (tval.tv_sec * 1000) + (tval.tv_usec / 1000);
 	time_data.doing_elapsed = time_data.start_doing;
 	while ((time_data.doing_elapsed - time_data.start_doing < time_it_takes))
 	{
@@ -16,17 +16,7 @@ bool	doing(t_philo *philo, time_t time_it_takes)
 			return (false);
 		else
 		{
-			pthread_mutex_lock(philo->shared_data->state_mutex);
-			if (philo->shared_data->all_alive)
-			{
-				pthread_mutex_unlock(philo->shared_data->state_mutex);
-				usleep(100);
-			}
-			else
-			{
-				pthread_mutex_unlock(philo->shared_data->state_mutex);
-				return (false);
-			}
+			usleep(100);
 			gettimeofday(&tval, NULL);
 			time_data.doing_elapsed = (tval.tv_sec * 1000) + (tval.tv_usec/1000);
 		}

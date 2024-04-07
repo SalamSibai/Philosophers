@@ -4,20 +4,16 @@
 
 void    print_msg(t_philo *philo, char *msg, long timestamp)
 {
+	pthread_mutex_lock(philo->shared_data->print_mutex);
 	printf("time: %ld | Philosopher %d %s\n", timestamp ,philo->sn, msg);
+	pthread_mutex_unlock(philo->shared_data->print_mutex);
 }
-
+ 
 void    print_eating(t_philo *philo)
 {
-	pthread_mutex_lock(philo->shared_data->print_mutex);
 	print_msg(philo, "took a fork", philo->last_mealtime);
-	pthread_mutex_unlock(philo->shared_data->print_mutex);
-	pthread_mutex_lock(philo->shared_data->print_mutex);
 	print_msg(philo, "took a fork", philo->last_mealtime);
-	pthread_mutex_unlock(philo->shared_data->print_mutex);
-	pthread_mutex_lock(philo->shared_data->print_mutex);
 	print_msg(philo, "is eating", philo->last_mealtime);
-	pthread_mutex_unlock(philo->shared_data->print_mutex);
 }
 
 void	print_sleeping(t_philo *philo, time_t	sleep_time)

@@ -52,10 +52,7 @@ bool	init_shared_data(t_shared_data *shared, t_input	*input)
 		return (false);
 	shared->print_mutex = malloc(sizeof(pthread_mutex_t));
 	if (!shared->state_mutex)
-	{
-		free (shared->state_mutex);
-		return (false);
-	}
+		return (free (shared->state_mutex), false);
 	if (pthread_mutex_init((shared->state_mutex), NULL))
 	{
 		printf("error\n"); //return 1 to not clean up anything
@@ -145,6 +142,9 @@ bool	init_philos(t_philo  **philo, t_fork **fork, t_input *input, t_shared_data 
 		philo[i]->death_time = -1;
 		philo[i]->shared_data = shared;
 		philo[i]->last_mealtime = 0;
+		philo[i]->count_meals = false;
+		if (input->food_ctr > 0)
+			philo[i]->count_meals = true;
 	}
 	philo[i] = NULL;
 	return (1);

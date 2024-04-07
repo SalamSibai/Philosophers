@@ -68,6 +68,7 @@ typedef	struct s_philo
 	int				death_time;
 	t_shared_data	*shared_data;
 	time_t			last_mealtime;
+	bool			count_meals;
 }	t_philo;
 
 /* ************************************************************************** */
