@@ -7,20 +7,20 @@ int	make_philosophers(t_philo **philos, t_input *input)
 
 	i = -1;
 	while (++i < input->philo_num)
-		pthread_create(philos[i]->thread, NULL, (void *)&find_forks, philos[i]);
+	{
+		pthread_create(philos[i]->thread, NULL, (void *)&start_sim, philos[i]);
+		usleep(100);
+	}
 	i = -1;
 	while (++i < input->philo_num)
 		pthread_join(*philos[i]->thread, NULL);
-	if (!philos[0]->shared_data->all_alive)
+	i = -1;
+	while (++i < input->philo_num)
 	{
-		i = -1;
-		while (++i < input->philo_num)
+		if (!philos[i]->shared_data->all_alive)
 		{
-			if (philos[i]->death_time != -1)
-			{
-				print_dead(philos[i]);
-				break;
-			}
+			printf("died\n");
+			break;
 		}
 	}
 	return (1);

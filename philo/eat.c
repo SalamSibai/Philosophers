@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   eat.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/08 11:53:50 by ssibai            #+#    #+#             */
+/*   Updated: 2024/04/08 13:55:46 by ssibai           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "philo.h"
 
@@ -8,7 +18,7 @@
  * @param philo philo reference
  * @param left if true, lock left first
  */
-void    grab_forks(t_philo  *philo, bool left)
+void	grab_forks(t_philo  *philo, bool left)
 {
 	if (left)
 	{
@@ -27,7 +37,7 @@ void    grab_forks(t_philo  *philo, bool left)
  * 
  * @param philo philo reference
  */
-void    leave_forks(t_philo *philo)
+void	leave_forks(t_philo *philo)
 {
 	pthread_mutex_unlock(philo->l_fork->mutex);
 	pthread_mutex_unlock(philo->r_fork->mutex);
@@ -40,7 +50,7 @@ void    leave_forks(t_philo *philo)
  * @return true if both forks can be taken 
  * @return false if one or neither forks cant be taken
  */
-bool    take_forks(t_philo *philo)
+bool	take_forks(t_philo *philo)
 {
 	bool	l_available;
 	bool	r_available;
@@ -105,15 +115,13 @@ bool	philo_eat(t_philo	*philo)
 		philo->l_fork->in_use = 0;
 		philo->r_fork->in_use = 0;
 		leave_forks(philo);
-		if (!philo_sleep(philo))
-			return (false);
+		return (true);
+		//if (!philo_sleep(philo))
+		// 	return (false);
 	}
-	else
-	{
-		pthread_mutex_unlock(philo->shared_data->state_mutex);
-		return (false);
-	}
-	return (true);
+	pthread_mutex_unlock(philo->shared_data->state_mutex);
+	return (false);
+	//return (true);
 }
 
 /**
@@ -122,14 +130,14 @@ bool	philo_eat(t_philo	*philo)
  * @param philo philo reference
  * @return void* if NULL, someone died
  */
-void    *find_forks(t_philo *philo)
+bool	find_forks(t_philo *philo)
 {
 	pthread_mutex_lock(philo->shared_data->state_mutex);
 	while (philo->shared_data->all_alive)
 	{
 		pthread_mutex_unlock(philo->shared_data->state_mutex);
 		if (should_die(philo))
-			return (NULL);
+			return (false);
 		if (philo->sn == philo->shared_data->input->philo_num)
 			grab_forks(philo, true);
 		else
@@ -139,12 +147,14 @@ void    *find_forks(t_philo *philo)
 			philo->r_fork->in_use = 1;
 			philo->l_fork->in_use = 1;
 			leave_forks(philo);
-			philo_eat(philo);
+			//philo_eat(philo);
+			return (true);
 		}
 		else
 			leave_forks(philo);
 		pthread_mutex_lock(philo->shared_data->state_mutex);
+		usleep(100);
 	}
 	pthread_mutex_unlock(philo->shared_data->state_mutex);
-	return (NULL);
+	return (false);
 }

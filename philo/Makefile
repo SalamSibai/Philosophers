@@ -9,6 +9,7 @@ SRC_FILES	=$	$(PARSE_DIR)/ft_split.c \
 				$(PARSE_DIR)/parsing_utils.c \
 				$(PARSE_DIR)/parsing_error.c \
 				main.c \
+				start.c \
 				philo.c \
 				init.c \
 				init_utils.c \

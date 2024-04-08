@@ -76,8 +76,8 @@ typedef	struct s_philo
 /* ************************************************************************** */
 
 void	init_input(t_input *input, char  **nums);
-bool    init_shared_data(t_shared_data *shared_data, t_input *input);
-bool    init_forks(t_fork **forks, t_input *input);
+bool	init_shared_data(t_shared_data *shared_data, t_input *input);
+bool	init_forks(t_fork **forks, t_input *input);
 bool	init_philos(t_philo  **philo, t_fork **fork, t_input *input, t_shared_data *shared);
 void	set_fork(t_fork *fork);
 void	set_philo(t_philo *philo);
@@ -87,9 +87,11 @@ void	set_philo(t_philo *philo);
 /* ************************************************************************** */
 
 int		philo(t_input *input);
-void	*find_forks(t_philo *philo);
-bool    should_die(t_philo	*philo);
-bool	doing(t_philo   *philo, time_t  time_it_takes);
+void	*start_sim(t_philo *philo);
+bool	find_forks(t_philo *philo);
+bool	philo_eat(t_philo *philo);
+bool	should_die(t_philo	*philo);
+bool	doing(t_philo *philo, time_t  time_it_takes);
 void	print_eating(t_philo *philo);
 void	print_sleeping(t_philo *philo, time_t	sleep_time);
 void	print_thinking(t_philo *philo, time_t	think_time);
