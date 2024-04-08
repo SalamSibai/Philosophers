@@ -4,8 +4,8 @@
 
 bool	doing(t_philo *philo, time_t time_it_takes)
 {
-	struct timeval  tval;
-	t_time_data     time_data;
+	struct timeval	tval;
+	t_time_data		time_data;
 
 	gettimeofday(&tval, NULL);
 	time_data.start_doing = (tval.tv_sec * 1000) + (tval.tv_usec / 1000);

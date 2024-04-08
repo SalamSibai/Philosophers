@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:53:58 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/08 14:13:53 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/08 14:21:46 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,20 @@ bool should_die(t_philo *philo)
 	if(time_data.last_meal > philo->shared_data->input->death_timer
 		&& philo->last_mealtime != 0)
 	{
-		// pthread_mutex_lock(philo->shared_data->state_mutex);
-		// if (philo->shared_data->all_alive == false)
-		// 	pthread_mutex_unlock(philo->shared_data->state_mutex);
-		// else
-		// {
+		pthread_mutex_lock(philo->shared_data->state_mutex);
+		if (philo->shared_data->all_alive == false)
+			pthread_mutex_unlock(philo->shared_data->state_mutex);
+		else
+		{
 			philo->shared_data->all_alive = false;
-			//pthread_mutex_unlock(philo->shared_data->state_mutex);
+			pthread_mutex_unlock(philo->shared_data->state_mutex);
 			philo->state = DEAD;
 			time_data.print =
 				time_data.curent - philo->shared_data->simulation_start_time;
 			printf("death time: %ld\n", time_data.print);
 			philo->death_time = time_data.print;
 			print_dead(philo);
-		//}
+		}
 		return (true);
 	}
 	return (false);
