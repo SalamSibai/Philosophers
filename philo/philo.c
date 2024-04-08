@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/08 14:28:22 by ssibai            #+#    #+#             */
+/*   Updated: 2024/04/08 16:00:06 by ssibai           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "philo.h"
 
@@ -9,7 +20,7 @@ int	make_philosophers(t_philo **philos, t_input *input)
 	while (++i < input->philo_num)
 	{
 		pthread_create(philos[i]->thread, NULL, (void *)&start_sim, philos[i]);
-		usleep(100);
+		usleep(350);
 	}
 	i = -1;
 	while (++i < input->philo_num)

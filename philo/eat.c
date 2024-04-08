@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:53:50 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/08 13:55:46 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/08 16:02:54 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,7 @@ bool	philo_eat(t_philo	*philo)
 		time_data.print =
 			time_data.last_meal - philo->shared_data->simulation_start_time;
 		philo->last_mealtime = time_data.print;
-		philo->r_fork->last_user = philo->sn;
-		philo->l_fork->last_user = philo->sn;
+		
 		print_eating(philo);
 		if (philo->count_meals == true)
 			philo->meal_ctr ++;
@@ -146,6 +145,8 @@ bool	find_forks(t_philo *philo)
 		{
 			philo->r_fork->in_use = 1;
 			philo->l_fork->in_use = 1;
+			philo->r_fork->last_user = philo->sn;
+			philo->l_fork->last_user = philo->sn;
 			leave_forks(philo);
 			//philo_eat(philo);
 			return (true);
@@ -153,7 +154,6 @@ bool	find_forks(t_philo *philo)
 		else
 			leave_forks(philo);
 		pthread_mutex_lock(philo->shared_data->state_mutex);
-		usleep(100);
 	}
 	pthread_mutex_unlock(philo->shared_data->state_mutex);
 	return (false);

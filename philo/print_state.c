@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_state.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/08 15:53:35 by ssibai            #+#    #+#             */
+/*   Updated: 2024/04/08 15:57:02 by ssibai           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "philo.h"
 
@@ -19,7 +29,6 @@ void	print_eating(t_philo *philo)
 
 void	print_sleeping(t_philo *philo, time_t	sleep_time)
 {
-		pthread_mutex_unlock(philo->shared_data->state_mutex);
 		print_msg(philo, "is sleeping", sleep_time);
 }
 

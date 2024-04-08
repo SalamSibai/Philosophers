@@ -95,7 +95,7 @@ bool	init_forks(t_fork **forks, t_input *input)
 			return (clean_forks(forks, i, false), false);
 		forks[i]->sn = i + 1;
 		forks[i]->in_use = false;
-		forks[i]->last_user = 0;
+		forks[i]->last_user = -1;
 		if (pthread_mutex_init((forks[i]->mutex), NULL))
 			return (clean_forks(forks, i, false), false);
 	}

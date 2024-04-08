@@ -16,6 +16,7 @@ SRC_FILES	=$	$(PARSE_DIR)/ft_split.c \
 				doing.c \
 				eat.c \
 				sleep.c \
+				think.c \
 				death.c \
 				print_state.c \
 
