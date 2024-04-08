@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:53:28 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/08 21:21:30 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/08 21:31:20 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	*start_sim(t_philo *philo)
 {
 	pthread_mutex_lock(philo->shared_data->state_mutex);
 	while (philo->shared_data->all_alive
-		&& philo->shared_data->full_ctr != philo->shared_data->input->food_ctr)
+		&& philo->shared_data->full_ctr != philo->shared_data->input->philo_num)
 	{
 		pthread_mutex_unlock(philo->shared_data->state_mutex);
 		if (should_die(philo))
