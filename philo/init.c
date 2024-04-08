@@ -66,6 +66,10 @@ bool	init_shared_data(t_shared_data *shared, t_input	*input)
 		printf("error\n"); //return 2 to only destroy state_mutex
 		return (0);
 	}
+	if (pthread_mutex_init((shared->full_mutex),NULL))
+	{
+		return (0);
+	}
 	shared->full_ctr = 0;
 	shared->input = input;
 	return (1);

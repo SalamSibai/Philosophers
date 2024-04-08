@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:53:35 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/08 15:57:02 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/08 21:35:10 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,9 @@ void	print_sleeping(t_philo *philo, time_t	sleep_time)
 		print_msg(philo, "is sleeping", sleep_time);
 }
 
-void	print_thinking(t_philo *philo, time_t	think_time)
+void	print_thinking(t_philo *philo, time_t think_time)
 {
-
-		print_msg(philo, "is thinking", think_time);
+	print_msg(philo, "is thinking", think_time);
 }
 
 void	print_dead(t_philo	*philo)

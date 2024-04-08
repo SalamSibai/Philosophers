@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:53:28 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/08 21:31:20 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/08 21:38:58 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	*start_sim(t_philo *philo)
 			return (NULL);
 		if (!find_forks(philo))
 		{
-			printf("return falseeee\n");
 			return (NULL);
 		}
 		if (!philo_eat(philo))

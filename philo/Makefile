@@ -23,7 +23,7 @@ SRC_FILES	=$	$(PARSE_DIR)/ft_split.c \
 OBJS			= $(SRC_FILES:.c=.o)
 
 CC				= gcc
-CFLAGS			= -Wall -Werror -Wextra  -pthread
+CFLAGS			= -Wall -Werror -Wextra  -pthread -g3
 
 all: $(NAME)
 
