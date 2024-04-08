@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:53:28 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/08 14:35:20 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/08 16:29:11 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	*start_sim(t_philo *philo)
 			return (NULL);
 		if (!philo_think(philo))
 			return (NULL);
-		pthread_mutex_lock(philo->shared_data->state_mutex);
 		usleep(100);
+		pthread_mutex_lock(philo->shared_data->state_mutex);
 	}
 	pthread_mutex_unlock(philo->shared_data->state_mutex);
 	return (NULL);
