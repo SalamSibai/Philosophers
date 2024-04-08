@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:53:50 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/08 16:29:30 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/08 21:18:12 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,21 @@
  * @param philo philo reference
  * @param left if true, lock left first
  */
-void	grab_forks(t_philo  *philo, bool left)
+bool	grab_forks(t_philo *philo, bool left)
 {
-	if (left)
+	if (left && philo->r_fork != philo->l_fork)
 	{
 		pthread_mutex_lock(philo->r_fork->mutex);
 		pthread_mutex_lock(philo->l_fork->mutex);
+		return (true);
 	}
-	else
+	else if (!left && philo->r_fork != philo->l_fork)
 	{
 		pthread_mutex_lock(philo->l_fork->mutex);
 		pthread_mutex_lock(philo->r_fork->mutex);
+		return (true);
 	}
+	return (false);
 }
 
 /**
@@ -57,8 +60,7 @@ bool	take_forks(t_philo *philo)
 
 	l_available = true;
 	r_available = true;
-	if (!philo->r_fork->in_use && !philo->l_fork->in_use
-		&& philo->l_fork != philo->r_fork)
+	if (!philo->r_fork->in_use && !philo->l_fork->in_use)
 	{
 		if (philo->r_fork->last_user != 0)
 		{
@@ -101,10 +103,17 @@ bool	philo_eat(t_philo	*philo)
 		time_data.print =
 			time_data.last_meal - philo->shared_data->simulation_start_time;
 		philo->last_mealtime = time_data.print;
-		
 		print_eating(philo);
 		if (philo->count_meals == true)
+		{
 			philo->meal_ctr ++;
+			if (philo->meal_ctr == philo->shared_data->input->food_ctr)
+			{
+				pthread_mutex_lock(philo->shared_data->full_mutex);
+				philo->shared_data->full_ctr ++;
+				pthread_mutex_unlock(philo->shared_data->full_mutex);
+			}
+		}
 		if(!doing(philo, (philo->shared_data->input->food_timer)))
 			return (false);
 		if (philo->sn == philo->shared_data->input->philo_num)
@@ -115,8 +124,6 @@ bool	philo_eat(t_philo	*philo)
 		philo->r_fork->in_use = 0;
 		leave_forks(philo);
 		return (true);
-		//if (!philo_sleep(philo))
-		// 	return (false);
 	}
 	pthread_mutex_unlock(philo->shared_data->state_mutex);
 	return (false);
@@ -138,9 +145,22 @@ bool	find_forks(t_philo *philo)
 		if (should_die(philo))
 			return (false);
 		if (philo->sn == philo->shared_data->input->philo_num)
-			grab_forks(philo, true);
+		{
+			if (!grab_forks(philo, true))
+			{
+				usleep(100);
+				continue;
+			}
+		}
 		else
-			grab_forks(philo, false);
+		{
+			if (!grab_forks(philo, false))
+			{
+				usleep(100);
+				continue;
+			}
+		}
+		//printf("took forks\n");
 		if (take_forks(philo))
 		{
 			philo->r_fork->in_use = 1;
@@ -148,7 +168,6 @@ bool	find_forks(t_philo *philo)
 			philo->r_fork->last_user = philo->sn;
 			philo->l_fork->last_user = philo->sn;
 			leave_forks(philo);
-			//philo_eat(philo);
 			return (true);
 		}
 		else

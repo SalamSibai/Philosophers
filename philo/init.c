@@ -51,8 +51,11 @@ bool	init_shared_data(t_shared_data *shared, t_input	*input)
 	if (!shared->state_mutex)
 		return (false);
 	shared->print_mutex = malloc(sizeof(pthread_mutex_t));
-	if (!shared->state_mutex)
+	if (!shared->print_mutex)
 		return (free (shared->state_mutex), false);
+	shared->full_mutex = malloc(sizeof(pthread_mutex_t));
+	if (!shared->full_mutex)
+		return (free(shared->state_mutex), free(shared->print_mutex), NULL);
 	if (pthread_mutex_init((shared->state_mutex), NULL))
 	{
 		printf("error\n"); //return 1 to not clean up anything
@@ -63,6 +66,7 @@ bool	init_shared_data(t_shared_data *shared, t_input	*input)
 		printf("error\n"); //return 2 to only destroy state_mutex
 		return (0);
 	}
+	shared->full_ctr = 0;
 	shared->input = input;
 	return (1);
 }

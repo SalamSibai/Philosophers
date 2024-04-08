@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:28:22 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/08 16:00:06 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/08 21:17:29 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,6 @@ int	make_philosophers(t_philo **philos, t_input *input)
 	i = -1;
 	while (++i < input->philo_num)
 		pthread_join(*philos[i]->thread, NULL);
-	i = -1;
-	while (++i < input->philo_num)
-	{
-		if (!philos[i]->shared_data->all_alive)
-		{
-			printf("died\n");
-			break;
-		}
-	}
 	return (1);
 }
 

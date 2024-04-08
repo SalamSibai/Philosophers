@@ -23,7 +23,7 @@ typedef	struct s_time_data
 {
 	time_t	curent;
 	time_t	print;
-	time_t  last_meal;
+	time_t	last_meal;
 	time_t	start_doing;
 	time_t	doing_elapsed;
 }	t_time_data;
@@ -44,6 +44,8 @@ typedef struct s_shared_data
 	time_t			simulation_start_time;
 	pthread_mutex_t	*state_mutex;
 	bool			all_alive;
+	pthread_mutex_t	*full_mutex;
+	int				full_ctr;
 	pthread_mutex_t	*print_mutex;
 	t_input			*input;
 }	t_shared_data;

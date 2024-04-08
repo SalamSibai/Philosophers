@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:53:58 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/08 14:40:26 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/08 20:22:44 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ bool should_die(t_philo *philo)
 	time_data.curent = (tval.tv_sec * 1000) + (tval.tv_usec/1000);
 	time_data.last_meal = time_data.curent - philo->last_mealtime
 		- philo->shared_data->simulation_start_time;
-	if (time_data.last_meal > philo->shared_data->input->death_timer
-		&& philo->last_mealtime != 0)
+	if (time_data.last_meal > philo->shared_data->input->death_timer)
 	{
 		pthread_mutex_lock(philo->shared_data->state_mutex);
 		if (philo->shared_data->all_alive == false)
