@@ -6,14 +6,35 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 17:10:55 by ssibai            #+#    #+#             */
-/*   Updated: 2024/03/23 17:15:54 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 16:26:30 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "parsing.h"
 
-void	parse_error(char *msg, int cleanup)
+int	ft_stlen(char *str)
 {
-	(void)	cleanup;
-	perror(msg);
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+void	free_matrix(char **matrix)
+{
+	int	i;
+
+	i = -1;
+	while (matrix[++i])
+		free(matrix[i]);
+	free (matrix);
+}
+
+void	parse_error(char *msg, bool cleanup, char **matrix)
+{
+	if (cleanup)
+		free_matrix(matrix);
+	write(2, msg, ft_stlen(msg));
 }

@@ -6,13 +6,11 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 16:29:08 by ssibai            #+#    #+#             */
-/*   Updated: 2024/03/23 17:49:10 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 16:18:02 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "../philo_old/old_philo.h"
 #include "../philo/philo.h"
-
 
 void	ft_copy(char *args, char *list, int *args_idx, int *list_idx)
 {
@@ -40,12 +38,13 @@ char	*copy_to_list(char **args, int arg_num, int list_len)
 	char	*list;
 
 	i = 0;
-	j = 0;
+	j = -1;
 	y = 0;
 	list = malloc ((list_len) * sizeof(char *));
 	if (!list)
 		return (NULL);
-	while (j < arg_num)
+	memset(list, '\0', list_len);
+	while (++j < arg_num)
 	{
 		y = 0;
 		while (args[j][y] != '\0')
@@ -55,7 +54,6 @@ char	*copy_to_list(char **args, int arg_num, int list_len)
 			y = skip(args[j], 1, y, 0);
 			list[i++] = ' ';
 		}
-		j++;
 	}
 	list[i] = '\0';
 	return (list);

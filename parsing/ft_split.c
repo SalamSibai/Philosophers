@@ -6,11 +6,10 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 20:01:38 by ssibai            #+#    #+#             */
-/*   Updated: 2024/03/23 17:15:36 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 16:13:57 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "../philo_old/old_philo.h"
 #include "../philo/philo.h"
 
 char	*set_arg(char *str, int idx, int len)
@@ -22,6 +21,7 @@ char	*set_arg(char *str, int idx, int len)
 	arg = malloc((len + 1) * sizeof(char));
 	if (!arg)
 		return (NULL);
+	memset(arg, '\0', len + 1);
 	while (i < len && str[idx])
 		arg[i++] = str[idx++];
 	arg[i] = '\0';
@@ -42,7 +42,7 @@ int	set_args(char **split_args, char *str, int num)
 		begin = skip(str, 1, begin, 0);
 		end = skip(str, 0, begin, 0);
 		split_args[i] = set_arg(str, begin, end - begin);
-		if (!split_args[i]) //return the index that failed amd free up to that point
+		if (!split_args[i])
 			return (0);
 		i ++;
 		begin = end;
@@ -58,16 +58,14 @@ char	**split_nums(char *av)
 
 	arg_num = arg_ctr(av);
 	if (arg_num == -1)
-		return (parse_error("arguments are not all numbers\n", 0), NULL);
+		return (parse_error("arguments are not all numbers\n", 0, NULL), NULL);
 	else if (arg_num != 4 && arg_num != 5)
-		return (parse_error("wrong number of arguments\n", 0), NULL);
+		return (parse_error("wrong number of arguments\n", 0, NULL), NULL);
 	split_args = malloc((arg_num + 1) * sizeof (char*));
 	if (!split_args)
-		return (parse_error("no space\n", 0), NULL);
+		return (parse_error("no space\n", 0, NULL), NULL);
+	memset(split_args, '\0', arg_num + 1);
 	if (!set_args(split_args, av, arg_num))
-	{
-		//free_split
-		return (parse_error("arguments couldn't be split\n", 0), NULL);
-	}
+		return (parse_error("arguments couldn't be split\n", 1, split_args), NULL);
 	return (split_args);
 }

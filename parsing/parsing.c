@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:48:28 by ssibai            #+#    #+#             */
-/*   Updated: 2024/03/23 18:06:18 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 16:21:09 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,7 @@ char	**validate(int ac, char **av)
 	{
 		num_str = split_nums(av[1]);
 		if (!num_str)
-		{
-			//make sure u free
 			return (NULL);
-		}
 	}
 	else
 	{
@@ -68,10 +65,26 @@ char	**validate(int ac, char **av)
 		if (!num_str)
 		{
 			free (joined);
-			//make sure u free
 			return (NULL);
 		}
 		free (joined);
 	}
 	return (num_str);
 }
+
+// int main(int ac, char **av)
+// {
+// 	char	**nums;
+// 	int i = 0;
+
+// 	nums = validate(ac-1, av);
+// 	if (!nums)
+// 		return (0);
+// 	while (nums[i] != NULL)
+// 	{
+// 		printf("nums %s\n", nums[i]);
+// 		i ++;
+// 	}
+// 	free_matrix(nums);
+// 	return (0);
+// }
