@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 16:29:36 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/09 21:31:04 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 22:06:02 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	skip(char *av, int spaces, int i, int check_num)
 			{
 				if (!validate_num(av[i]))
 				{
-					printf("not valid\n");
 					return (-1);
 				}
 			}

@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 20:01:38 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/09 21:29:31 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 22:09:44 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,16 @@ char	**split_nums(char *av)
 
 	arg_num = arg_ctr(av);
 	if (arg_num == -1)
-		return (parse_error("arguments are not all numbers\n", 0, NULL), NULL);
+		return (parse_error("ERROR: arguments are not valid\n", 0, NULL), NULL);
 	else if (arg_num != 4 && arg_num != 5)
-		return (parse_error("wrong number of arguments\n", 0, NULL), NULL);
+		return (parse_error("ERROR: wrong number of arguments\n",
+				0, NULL), NULL);
 	split_args = malloc((arg_num + 1) * sizeof (char *));
 	if (!split_args)
-		return (parse_error("no space\n", 0, NULL), NULL);
+		return (parse_error("ERROR: no space\n", 0, NULL), NULL);
 	memset(split_args, '\0', arg_num + 1);
 	if (!set_args(split_args, av, arg_num))
-		return (parse_error("arguments couldn't be split\n", 1, split_args),
-			NULL);
+		return (parse_error("ERROR: arguments couldn't be split\n",
+				1, split_args), NULL);
 	return (split_args);
 }
