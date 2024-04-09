@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/09 17:07:28 by ssibai            #+#    #+#             */
+/*   Updated: 2024/04/09 18:03:44 by ssibai           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "philo.h"
 
@@ -7,30 +18,31 @@
  * @param input input reference
  * @param nums nums 2d array
  */
-void	init_input(t_input *input, char  **nums)
+bool	init_input(t_input *input, char  **nums)
 {
 	input->philo_num = ft_atol(nums[0]);
 	if (input->philo_num == -1)
-		printf("error\n"); //and return
+		return (error_msg("wrong value for philos"), false);
 	input->forks_num = input->philo_num;
 	input->death_timer = ft_atol(nums[1]);
 	if (input->death_timer == -1)
-		printf("error\n");
+		return (error_msg("wrong value for death timer"), false);
 	input->food_timer = ft_atol(nums[2]);
 	if (input->food_timer == -1)
-		printf("error\n");
+		return (error_msg("wrong value for food timer"), false);
 	input->sleep_timer = ft_atol(nums[3]);
 	if (input->sleep_timer == -1)
-		printf("error\n");
+		return (error_msg("wrong value for sleep timer"), false);
 	if (tot_vars(nums) == 5)
 	{
 		input->food_ctr = ft_atol(nums[4]);
 		if (input->food_ctr == -1)
-			printf("error\n");
+			return (error_msg("wrong value for food counter"), false);
 	}
 	else
 		input->food_ctr = -1;
-	//free nums
+	free_matrix(nums);
+	return (true);
 }
 
 /**
@@ -57,22 +69,14 @@ bool	init_shared_data(t_shared_data *shared, t_input	*input)
 	if (!shared->full_mutex)
 		return (free(shared->state_mutex), free(shared->print_mutex), NULL);
 	if (pthread_mutex_init((shared->state_mutex), NULL))
-	{
-		printf("error\n"); //return 1 to not clean up anything
-		return (0);
-	}
+		return (clean_share_data(shared, 0), false);
 	if (pthread_mutex_init((shared->print_mutex), NULL))
-	{
-		printf("error\n"); //return 2 to only destroy state_mutex
-		return (0);
-	}
+		return (clean_share_data(shared, 1), false);
 	if (pthread_mutex_init((shared->full_mutex),NULL))
-	{
-		return (0);
-	}
+		return (clean_share_data(shared, 2), false);
 	shared->full_ctr = 0;
 	shared->input = input;
-	return (1);
+	return (true);
 }
 
 /**
@@ -95,17 +99,20 @@ bool	init_forks(t_fork **forks, t_input *input)
 		if (!forks[i])
 		{
 			if (i == 0)
-				return (clean_forks(forks, -1, false), false);
+				return (false);
 			return (clean_forks(forks, i, false), false);
 		}
 		forks[i]->mutex = malloc(sizeof(pthread_mutex_t));
 		if (!forks[i]->mutex)
 			return (clean_forks(forks, i, false), false);
+		if (pthread_mutex_init((forks[i]->mutex), NULL))
+		{
+			free(forks[i]->mutex);
+			return (clean_forks(forks, i, false), false);
+		}
 		forks[i]->sn = i + 1;
 		forks[i]->in_use = false;
 		forks[i]->last_user = -1;
-		if (pthread_mutex_init((forks[i]->mutex), NULL))
-			return (clean_forks(forks, i, false), false);
 	}
 	forks[i] = NULL;
 	return (true);

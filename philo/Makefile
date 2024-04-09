@@ -12,13 +12,14 @@ SRC_FILES	=$	$(PARSE_DIR)/ft_split.c \
 				start.c \
 				philo.c \
 				init.c \
-				init_utils.c \
+				cleanup.c \
 				doing.c \
 				eat.c \
 				sleep.c \
 				think.c \
 				death.c \
 				print_state.c \
+				error_handler.c \
 
 OBJS			= $(SRC_FILES:.c=.o)
 

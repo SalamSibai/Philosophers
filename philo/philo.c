@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:28:22 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/08 21:17:29 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 18:03:12 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ int philo(t_input *input)
 	shared_data = NULL;
 	shared_data = malloc(sizeof(t_shared_data));
 	if (!shared_data)
-		return (0); //print error msg firs (NO SPACE for shared data)
+		return (error_msg("No space for shared data"), 0);
 	if (!init_shared_data(shared_data, input))
-		return (0); //print error msg firs (NO SPACE for shared data)
+		return (error_msg("No space for shared data"), 0);
 	forks = malloc(sizeof(t_fork *) * (input->forks_num + 1));
 	if (!forks)
-		return (0); //print error msg firs (NO SPACE for forks)
+		return (error_msg("No space for forks"), 0);
 	if (!init_forks(forks, input))
 		return (0); //print error msg firs (NO SPACE for forks)
 	philos = malloc(sizeof(t_philo *) * (input->philo_num + 1));
@@ -54,5 +54,6 @@ int philo(t_input *input)
 	if (!init_philos(philos, forks, input, shared_data))
 		return (0); //print error msg firs (NO SPACE for philos)
 	make_philosophers(philos, input);
+	cleanup(philos, forks, shared_data);
 	return (1);
 }
