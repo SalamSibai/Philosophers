@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 16:29:08 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/09 16:18:02 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 20:40:28 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,28 @@ int	ft_listlen(char **av, int ac)
 	return (len);
 }
 
+bool	empty_str(char *args)
+{
+	int	spaces;
+
+	spaces = skip(args, 1, 0, 0);
+	if (spaces == ft_strlen(args))
+		return (true);
+	return (false);
+}
+
 char	*ft_join(char **args, int arg_num)
 {
 	char	*joined;
 	int		list_len;
+	int		i;
 
+	i = -1;
+	while (++i < arg_num)
+	{
+		if (empty_str(args[i]))
+			return (error_msg("ERROR: empty string\n"), NULL);
+	}
 	list_len = ft_listlen(args, arg_num);
 	joined = copy_to_list(args, arg_num, list_len);
 	return (joined);

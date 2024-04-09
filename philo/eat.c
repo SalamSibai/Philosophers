@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:53:50 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/08 21:53:42 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 20:25:50 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ bool	find_forks(t_philo *philo)
 			if (!grab_forks(philo, true))
 			{
 				usleep(100);
+				pthread_mutex_lock(philo->shared_data->state_mutex);
 				continue;
 			}
 		}
@@ -157,10 +158,10 @@ bool	find_forks(t_philo *philo)
 			if (!grab_forks(philo, false))
 			{
 				usleep(100);
+				pthread_mutex_lock(philo->shared_data->state_mutex);
 				continue;
 			}
 		}
-		//printf("took forks\n");
 		if (take_forks(philo))
 		{
 			philo->r_fork->in_use = 1;

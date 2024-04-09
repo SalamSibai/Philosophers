@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 17:11:51 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/09 16:10:42 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 20:38:02 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ void	parse_error(char *msg, bool cleanup, char **matrix);
 int		tot_vars(char **av);
 int		ft_atol(char *str);
 void	free_matrix(char **matrix);
+int		ft_strlen(char *str);
 
 #endif

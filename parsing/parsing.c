@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:48:28 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/09 16:21:09 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 20:37:43 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,20 +71,3 @@ char	**validate(int ac, char **av)
 	}
 	return (num_str);
 }
-
-// int main(int ac, char **av)
-// {
-// 	char	**nums;
-// 	int i = 0;
-
-// 	nums = validate(ac-1, av);
-// 	if (!nums)
-// 		return (0);
-// 	while (nums[i] != NULL)
-// 	{
-// 		printf("nums %s\n", nums[i]);
-// 		i ++;
-// 	}
-// 	free_matrix(nums);
-// 	return (0);
-// }

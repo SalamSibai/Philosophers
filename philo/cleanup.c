@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:41:20 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/09 18:03:54 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 20:21:49 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	clean_philos(t_philo **philos, int index, bool end)
 	{
 		while (++i < index)
 		{
-			free(philos[i]);
 			if (!end)
 			{
 				if (i > 0)
@@ -80,6 +79,7 @@ void	clean_philos(t_philo **philos, int index, bool end)
 			}
 			else
 				free(philos[i]->thread);
+			free(philos[i]);
 		}
 	}
 	free(philos);
@@ -87,7 +87,7 @@ void	clean_philos(t_philo **philos, int index, bool end)
 
 void	cleanup(t_philo **philo, t_fork **fork, t_shared_data *shared)
 {
-	clean_share_data(shared, 3);
 	clean_forks(fork, shared->input->forks_num, true);
 	clean_philos(philo, shared->input->philo_num, true);
+	clean_share_data(shared, 3);
 }

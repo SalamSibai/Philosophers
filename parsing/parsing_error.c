@@ -6,13 +6,13 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 17:10:55 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/09 16:26:30 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 20:40:35 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int	ft_stlen(char *str)
+int	ft_strlen(char *str)
 {
 	int	i;
 
@@ -36,5 +36,5 @@ void	parse_error(char *msg, bool cleanup, char **matrix)
 {
 	if (cleanup)
 		free_matrix(matrix);
-	write(2, msg, ft_stlen(msg));
+	write(2, msg, ft_strlen(msg));
 }
