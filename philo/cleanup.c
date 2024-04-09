@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:41:20 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/09 20:49:01 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 22:08:04 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@ void	clean_share_data(t_shared_data *shared_data, int mutex_sn)
 	if (mutex_sn >= 1)
 	{
 		if (pthread_mutex_destroy(shared_data->state_mutex))
-			error_msg("failed to destroy state mutex\n");
+			error_msg("ERROR: failed to destroy state mutex\n");
 	}
 	if (mutex_sn >= 2)
 	{
 		if (pthread_mutex_destroy(shared_data->print_mutex))
-			error_msg("failed to destroy print mutex\n");
+			error_msg("ERROR: failed to destroy print mutex\n");
 	}
 	if (mutex_sn >= 3)
 	{
 		if (pthread_mutex_destroy(shared_data->full_mutex))
-			error_msg("faild to destroy full mutex\n");
+			error_msg("ERROR: faild to destroy full mutex\n");
 	}
 	free(shared_data->state_mutex);
 	free(shared_data->print_mutex);

@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 17:07:28 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/09 21:20:00 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 22:08:36 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,22 @@ bool	init_input(t_input *input, char **nums)
 {
 	input->philo_num = ft_atol(nums[0]);
 	if (input->philo_num == -1)
-		return (error_msg("wrong value for philos"), false);
+		return (error_msg("ERROR: wrong value for philos\n"), false);
 	input->forks_num = input->philo_num;
 	input->death_timer = ft_atol(nums[1]);
 	if (input->death_timer == -1)
-		return (error_msg("wrong value for death timer"), false);
+		return (error_msg("ERROR: wrong value for death timer\n"), false);
 	input->food_timer = ft_atol(nums[2]);
 	if (input->food_timer == -1)
-		return (error_msg("wrong value for food timer"), false);
+		return (error_msg("ERROR: wrong value for food timer\n"), false);
 	input->sleep_timer = ft_atol(nums[3]);
 	if (input->sleep_timer == -1)
-		return (error_msg("wrong value for sleep timer"), false);
+		return (error_msg("ERROR: wrong value for sleep timer\n"), false);
 	if (tot_vars(nums) == 5)
 	{
 		input->food_ctr = ft_atol(nums[4]);
 		if (input->food_ctr == -1)
-			return (error_msg("wrong value for food counter"), false);
+			return (error_msg("ERROR: wrong value for food counter\n"), false);
 	}
 	else
 		input->food_ctr = -1;
