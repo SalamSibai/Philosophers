@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:29:42 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/08 14:29:45 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 20:50:32 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ bool	doing(t_philo *philo, time_t time_it_takes)
 		{
 			usleep(100);
 			gettimeofday(&tval, NULL);
-			time_data.doing_elapsed = (tval.tv_sec * 1000) + (tval.tv_usec/1000);
+			time_data.doing_elapsed
+				= (tval.tv_sec * 1000) + (tval.tv_usec / 1000);
 		}
 	}
 	return (true);

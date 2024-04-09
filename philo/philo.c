@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:28:22 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/09 18:03:12 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 21:23:59 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ int	make_philosophers(t_philo **philos, t_input *input)
 	return (1);
 }
 
-
-int philo(t_input *input)
+int	philo(t_input *input)
 {
 	t_philo			**philos;
 	t_fork			**forks;
@@ -47,12 +46,12 @@ int philo(t_input *input)
 	if (!forks)
 		return (error_msg("No space for forks"), 0);
 	if (!init_forks(forks, input))
-		return (0); //print error msg firs (NO SPACE for forks)
+		return (0);
 	philos = malloc(sizeof(t_philo *) * (input->philo_num + 1));
 	if (!philos)
-		return (0); //print error msg firs (NO SPACE for philos)
+		return (0);
 	if (!init_philos(philos, forks, input, shared_data))
-		return (0); //print error msg firs (NO SPACE for philos)
+		return (0);
 	make_philosophers(philos, input);
 	cleanup(philos, forks, shared_data);
 	return (1);

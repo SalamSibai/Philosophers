@@ -12,9 +12,11 @@ SRC_FILES	=$	$(PARSE_DIR)/ft_split.c \
 				start.c \
 				philo.c \
 				init.c \
+				init_utils.c \
 				cleanup.c \
 				doing.c \
 				eat.c \
+				eat_utils.c \
 				sleep.c \
 				think.c \
 				death.c \

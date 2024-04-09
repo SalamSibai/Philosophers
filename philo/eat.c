@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:53:50 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/09 20:25:50 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 21:01:18 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,25 @@
  * @param philo philo reference
  * @param left if true, lock left first
  */
-bool	grab_forks(t_philo *philo, bool left)
+bool	grab_forks(t_philo *philo)
 {
-	if (left && philo->r_fork != philo->l_fork)
+	if (philo->sn == philo->shared_data->input->philo_num)
 	{
-		pthread_mutex_lock(philo->r_fork->mutex);
-		pthread_mutex_lock(philo->l_fork->mutex);
-		return (true);
+		if (philo->r_fork != philo->l_fork)
+		{
+			pthread_mutex_lock(philo->r_fork->mutex);
+			pthread_mutex_lock(philo->l_fork->mutex);
+			return (true);
+		}
 	}
-	else if (!left && philo->r_fork != philo->l_fork)
+	else
 	{
-		pthread_mutex_lock(philo->l_fork->mutex);
-		pthread_mutex_lock(philo->r_fork->mutex);
-		return (true);
+		if (philo->r_fork != philo->l_fork)
+		{
+			pthread_mutex_lock(philo->l_fork->mutex);
+			pthread_mutex_lock(philo->r_fork->mutex);
+			return (true);
+		}
 	}
 	return (false);
 }
@@ -99,35 +105,23 @@ bool	philo_eat(t_philo	*philo)
 	{
 		pthread_mutex_unlock(philo->shared_data->state_mutex);
 		gettimeofday(&tval, NULL);
-		time_data.last_meal = (tval.tv_sec * 1000) + (tval.tv_usec/1000);
-		time_data.print =
-			time_data.last_meal - philo->shared_data->simulation_start_time;
+		time_data.last_meal
+			= (tval.tv_sec * 1000) + (tval.tv_usec / 1000);
+		time_data.print
+			= time_data.last_meal - philo->shared_data->simulation_start_time;
 		philo->last_mealtime = time_data.print;
 		print_eating(philo);
 		if (philo->count_meals == true)
-		{
-			philo->meal_ctr ++;
-			if (philo->meal_ctr == philo->shared_data->input->food_ctr)
-			{
-				pthread_mutex_lock(philo->shared_data->full_mutex);
-				philo->shared_data->full_ctr ++;
-				pthread_mutex_unlock(philo->shared_data->full_mutex);
-			}
-		}
-		if(!doing(philo, (philo->shared_data->input->food_timer)))
+			increment_meals_eaten(philo);
+		if (!doing(philo, (philo->shared_data->input->food_timer)))
 			return (false);
-		if (philo->sn == philo->shared_data->input->philo_num)
-			grab_forks(philo, true);
-		else
-			grab_forks(philo, false);
+		grab_forks(philo);
 		philo->l_fork->in_use = 0;
 		philo->r_fork->in_use = 0;
 		leave_forks(philo);
 		return (true);
 	}
-	pthread_mutex_unlock(philo->shared_data->state_mutex);
-	return (false);
-	//return (true);
+	return (pthread_mutex_unlock(philo->shared_data->state_mutex), false);
 }
 
 /**
@@ -144,33 +138,14 @@ bool	find_forks(t_philo *philo)
 		pthread_mutex_unlock(philo->shared_data->state_mutex);
 		if (should_die(philo))
 			return (false);
-		if (philo->sn == philo->shared_data->input->philo_num)
+		if (!grab_forks(philo))
 		{
-			if (!grab_forks(philo, true))
-			{
-				usleep(100);
-				pthread_mutex_lock(philo->shared_data->state_mutex);
-				continue;
-			}
-		}
-		else
-		{
-			if (!grab_forks(philo, false))
-			{
-				usleep(100);
-				pthread_mutex_lock(philo->shared_data->state_mutex);
-				continue;
-			}
+			usleep(100);
+			pthread_mutex_lock(philo->shared_data->state_mutex);
+			continue ;
 		}
 		if (take_forks(philo))
-		{
-			philo->r_fork->in_use = 1;
-			philo->l_fork->in_use = 1;
-			philo->r_fork->last_user = philo->sn;
-			philo->l_fork->last_user = philo->sn;
-			leave_forks(philo);
-			return (true);
-		}
+			return (use_forks(philo));
 		else
 			leave_forks(philo);
 		usleep(100);

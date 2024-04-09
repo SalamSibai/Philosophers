@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 16:29:08 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/09 20:40:28 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 21:28:20 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ int	ft_listlen(char **av, int ac)
 {
 	int	len;
 	int	i;
-	int j;
-	int end;
+	int	j;
+	int	end;
 
 	i = 0;
 	j = 0;

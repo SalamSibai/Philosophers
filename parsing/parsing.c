@@ -6,13 +6,13 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:48:28 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/09 20:37:43 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 21:29:53 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo/philo.h"
 
-int	validate_num(char	str)
+int	validate_num(char str)
 {
 	if (!(str >= 48 && str <= 57))
 		return (0);

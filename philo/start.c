@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:53:28 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/09 13:48:12 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 21:27:17 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ bool	all_full(t_philo *philo)
 	pthread_mutex_unlock(philo->shared_data->full_mutex);
 	return (false);
 }
-
 
 void	*start_sim(t_philo *philo)
 {

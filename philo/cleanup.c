@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:41:20 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/09 20:21:49 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 20:49:01 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	clean_philos(t_philo **philos, int index, bool end)
 
 	i = -1;
 	if (index == -1)
-		return;
+		return ;
 	else
 	{
 		while (++i < index)
@@ -74,7 +74,6 @@ void	clean_philos(t_philo **philos, int index, bool end)
 			if (!end)
 			{
 				if (i > 0)
-				
 					free(philos[i - 1]->thread);
 			}
 			else

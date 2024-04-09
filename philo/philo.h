@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/09 21:24:36 by ssibai            #+#    #+#             */
+/*   Updated: 2024/04/09 21:25:41 by ssibai           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef PHILO_H
 
@@ -13,13 +23,7 @@
 # include <stdbool.h>
 # include "../parsing/parsing.h"
 
-typedef	enum	e_state
-{
-	ALIVE,
-	DEAD
-} t_state;
-
-typedef	struct s_time_data
+typedef struct s_time_data
 {
 	time_t	curent;
 	time_t	print;
@@ -28,8 +32,7 @@ typedef	struct s_time_data
 	time_t	doing_elapsed;
 }	t_time_data;
 
-
-typedef	struct s_input
+typedef struct s_input
 {
 	int				philo_num;
 	int				forks_num;
@@ -50,8 +53,7 @@ typedef struct s_shared_data
 	t_input			*input;
 }	t_shared_data;
 
-
-typedef	struct s_fork
+typedef struct s_fork
 {
 	int				sn;
 	pthread_mutex_t	*mutex;
@@ -59,11 +61,10 @@ typedef	struct s_fork
 	int				last_user;
 }	t_fork;
 
-typedef	struct s_philo
+typedef struct s_philo
 {
 	int				sn;
 	pthread_t		*thread;
-	t_state			state;
 	t_fork			*l_fork;
 	t_fork			*r_fork;
 	int				meal_ctr;
@@ -80,7 +81,9 @@ typedef	struct s_philo
 bool	init_input(t_input *input, char **nums);
 bool	init_shared_data(t_shared_data *shared, t_input	*input);
 bool	init_forks(t_fork **forks, t_input *input);
-bool	init_philos(t_philo  **philo, t_fork **fork, t_input *input, t_shared_data *shared);
+void	init_philo_utils(t_philo **philo, t_fork **fork, t_input *input, int i);
+bool	init_philos(t_philo **phi, t_fork **f, t_input *in, t_shared_data *srd);
+void	init_forks_utils(t_fork *fork, int i);
 void	set_fork(t_fork *fork);
 void	set_philo(t_philo *philo);
 
@@ -92,9 +95,12 @@ int		philo(t_input *input);
 void	*start_sim(t_philo *philo);
 bool	find_forks(t_philo *philo);
 bool	philo_eat(t_philo *philo);
+bool	use_forks(t_philo *philo);
+void	leave_forks(t_philo *philo);
+void	increment_meals_eaten(t_philo *philo);
 bool	philo_think(t_philo *philo);
 bool	should_die(t_philo	*philo);
-bool	doing(t_philo *philo, time_t  time_it_takes);
+bool	doing(t_philo *philo, time_t time_it_takes);
 void	print_eating(t_philo *philo);
 void	print_sleeping(t_philo *philo, time_t	sleep_time);
 void	print_thinking(t_philo *philo, time_t	think_time);

@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:53:35 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/08 21:35:10 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 21:26:26 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 void	print_msg(t_philo *philo, char *msg, long timestamp)
 {
-
 	pthread_mutex_lock(philo->shared_data->print_mutex);
-	printf("time: %ld | Philosopher %d %s\n", timestamp ,philo->sn, msg);
+	printf("time: %ld | Philosopher %d %s\n", timestamp, philo->sn, msg);
 	pthread_mutex_unlock(philo->shared_data->print_mutex);
 }
 
@@ -29,7 +28,7 @@ void	print_eating(t_philo *philo)
 
 void	print_sleeping(t_philo *philo, time_t	sleep_time)
 {
-		print_msg(philo, "is sleeping", sleep_time);
+	print_msg(philo, "is sleeping", sleep_time);
 }
 
 void	print_thinking(t_philo *philo, time_t think_time)

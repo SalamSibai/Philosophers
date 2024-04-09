@@ -6,18 +6,18 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 16:56:40 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/09 17:56:43 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 21:23:10 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	t_input	*input;
 	char	**nums;
 
-	nums = validate(ac-1, av);
+	nums = validate(ac - 1, av);
 	if (!nums)
 		return (0);
 	input = malloc (sizeof(t_input));

@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 16:29:36 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/09 16:21:21 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 21:31:04 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,14 @@ int	skip(char *av, int spaces, int i, int check_num)
 {
 	if (spaces)
 	{
-		while ((av[i] == ' ') || ((av[i] >= 9 && av[i] <= 13) && (av[i] != '\0')))
+		while ((av[i] == ' ') || ((av[i] >= 9 && av[i] <= 13)
+				&& (av[i] != '\0')))
 			i++;
 	}
 	else
 	{
-		while ((av[i] != ' ') && (!(av[i] >= 9 && av[i] <= 13)) && (av[i] != '\0'))
+		while ((av[i] != ' ')
+			&& (!(av[i] >= 9 && av[i] <= 13)) && (av[i] != '\0'))
 		{
 			if (check_num)
 			{

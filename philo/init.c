@@ -6,7 +6,7 @@
 /*   By: ssibai < ssibai@student.42abudhabi.ae>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 17:07:28 by ssibai            #+#    #+#             */
-/*   Updated: 2024/04/09 18:03:44 by ssibai           ###   ########.fr       */
+/*   Updated: 2024/04/09 21:20:00 by ssibai           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * @param input input reference
  * @param nums nums 2d array
  */
-bool	init_input(t_input *input, char  **nums)
+bool	init_input(t_input *input, char **nums)
 {
 	input->philo_num = ft_atol(nums[0]);
 	if (input->philo_num == -1)
@@ -56,8 +56,10 @@ bool	init_input(t_input *input, char  **nums)
 bool	init_shared_data(t_shared_data *shared, t_input	*input)
 {
 	struct timeval	time_val;
+
 	gettimeofday(&time_val, NULL);
-	shared->simulation_start_time = (time_val.tv_sec * 1000) + (time_val.tv_usec/1000);
+	shared->simulation_start_time
+		= (time_val.tv_sec * 1000) + (time_val.tv_usec / 1000);
 	shared->all_alive = true;
 	shared->state_mutex = malloc(sizeof(pthread_mutex_t));
 	if (!shared->state_mutex)
@@ -72,7 +74,7 @@ bool	init_shared_data(t_shared_data *shared, t_input	*input)
 		return (clean_share_data(shared, 0), false);
 	if (pthread_mutex_init((shared->print_mutex), NULL))
 		return (clean_share_data(shared, 1), false);
-	if (pthread_mutex_init((shared->full_mutex),NULL))
+	if (pthread_mutex_init((shared->full_mutex), NULL))
 		return (clean_share_data(shared, 2), false);
 	shared->full_ctr = 0;
 	shared->input = input;
@@ -110,9 +112,7 @@ bool	init_forks(t_fork **forks, t_input *input)
 			free(forks[i]->mutex);
 			return (clean_forks(forks, i, false), false);
 		}
-		forks[i]->sn = i + 1;
-		forks[i]->in_use = false;
-		forks[i]->last_user = -1;
+		init_forks_utils(forks[i], i);
 	}
 	forks[i] = NULL;
 	return (true);
@@ -129,38 +129,29 @@ bool	init_forks(t_fork **forks, t_input *input)
  * 				if 1, succeeds
  * 				if 0, fails
  */
-bool	init_philos(t_philo  **philo, t_fork **fork, t_input *input, t_shared_data *shared)
+bool	init_philos(t_philo **phi, t_fork **f, t_input *in, t_shared_data *srd)
 {
 	int	i;
 
 	i = -1;
-	while (++i < input->philo_num)
+	while (++i < in->philo_num)
 	{
-		philo[i] = malloc(sizeof(t_philo));
-		if (!philo[i])
-		{			
+		phi[i] = malloc(sizeof(t_philo));
+		if (!phi[i])
+		{
 			if (i == 0)
-				return (clean_philos(philo, -1, false), false);
-			return (clean_philos(philo, i, false), false);
+				return (clean_philos(phi, -1, false), false);
+			return (clean_philos(phi, i, false), false);
 		}
-		philo[i]->thread = malloc(sizeof(pthread_t));
-		if (!philo[i]->thread)
-			return (clean_philos(philo, i, false), NULL);
-		philo[i]->sn = i + 1;
-		philo[i]->state = ALIVE;
-		if (i == 0)
-			philo[i]->l_fork = fork[input->forks_num - 1];
-		else
-			philo[i]->l_fork = fork[i - 1];
-		philo[i]->r_fork = fork[i];
-		philo[i]->meal_ctr = 0;
-		philo[i]->death_time = -1;
-		philo[i]->shared_data = shared;
-		philo[i]->last_mealtime = 0;
-		philo[i]->count_meals = false;
-		if (input->food_ctr > 0)
-			philo[i]->count_meals = true;
+		phi[i]->thread = malloc(sizeof(pthread_t));
+		if (!phi[i]->thread)
+			return (clean_philos(phi, i, false), NULL);
+		phi[i]->sn = i + 1;
+		phi[i]->shared_data = srd;
+		init_philo_utils(phi, f, in, i);
+		if (in->food_ctr > 0)
+			phi[i]->count_meals = true;
 	}
-	philo[i] = NULL;
+	phi[i] = NULL;
 	return (1);
 }
